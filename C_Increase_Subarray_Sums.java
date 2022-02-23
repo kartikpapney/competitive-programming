@@ -1,7 +1,7 @@
 /*
     Rating: 1367
-    Date: 21-02-2022
-    Time: 18-08-25
+    Date: 22-02-2022
+    Time: 20-23-19
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -13,23 +13,47 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class C_Penalty {
+
+public class C_Increase_Subarray_Sums {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    public static void s() {
-        String s = sc.nextLine();
-        int f = 0, se = 0;
-        for(int i=0; i<s.length(); i+=2) {
-            f += s.charAt(i) == '1'?1:0;
-            s += s.charAt(i+1) == '1'?1:0;
-            
+    public static long find(long[] arr, int l) {
+        long csum = 0;
+        for(int i=0; i<l; i++) csum += arr[i];
+        long max = csum;
+        for(int i=l; i<arr.length; i++) {
+            csum += arr[i] - arr[i-l];
+            max = Math.max(max, csum);
         }
+        return max;
+    }
+    public static void s() {
+        int n = sc.nextInt();
+        long x = sc.nextInt();
+        long[] arr = sc.readLongArray(n);
+        
+        long[] res = new long[n];
+        for(int i=n-1; i>=0; i--) {
+            res[i] = find(arr, i + 1);
+        }
+        long[] ans = new long[n+1];
+        ans[n] = res[n-1] + n*x;
+        for(int i=n-2; i>=0; i--) res[i] = Math.max(res[i], res[i+1]);
+        for(int i=n-1; i>=1; i--) {
+            ans[i] = res[i-1] + i*x;
+        }
+        for(int i=0; i<res.length; i++) {
+            ans[i] = Math.max(ans[i], res[i]);
+        }
+        for(int i=1; i<ans.length; i++) ans[i] = Math.max(ans[i], ans[i-1]);
+        p.writes(ans);
+        p.writeln();
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -175,6 +199,10 @@ public class C_Penalty {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -182,11 +210,6 @@ public class C_Penalty {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int[] arr) {

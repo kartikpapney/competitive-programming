@@ -1,7 +1,7 @@
 /*
     Rating: 1367
-    Date: 21-02-2022
-    Time: 18-08-25
+    Date: 23-02-2022
+    Time: 18-26-39
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -13,19 +13,28 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class C_Penalty {
+
+public class A_Maximum_Increase {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        String s = sc.nextLine();
-        int f = 0, se = 0;
-        for(int i=0; i<s.length(); i+=2) {
-            f += s.charAt(i) == '1'?1:0;
-            s += s.charAt(i+1) == '1'?1:0;
-            
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        int clen = 1;
+        int prev = 0;
+        int maxlen = 1;
+        for(int i=1; i<arr.length; i++) {
+            if(arr[i] > arr[prev]) {
+                clen++;
+            } else {
+                clen = 1;
+            }
+            prev = i;
+            maxlen = Math.max(clen, maxlen);
         }
+        p.writeln(maxlen);
     }
     public static void main(String[] args) {
         int t = 1;

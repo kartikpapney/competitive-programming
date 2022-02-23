@@ -1,7 +1,7 @@
 /*
     Rating: 1367
-    Date: 19-02-2022
-    Time: 17-33-55
+    Date: 22-02-2022
+    Time: 20-10-02
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -15,18 +15,34 @@ import java.io.InputStreamReader;
 
 
 public class Main {
-
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-
     public static void s() {
-        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i=0; i<arr.length; i++) arr[n-i-1] = i+1;
+        for(int i=0; i<arr.length; i++) {
+            p.writes(arr[i]);
+        }
+        p.writeln();
+        for(int i=0; i<arr.length-1; i++) {
+            int temp = arr[i];
+            arr[i] = arr[i+1];
+            arr[i+1] = temp;
+            for(int j=0; j<arr.length; j++) {
+                p.writes(arr[j]);
+            }
+            p.writeln();
+            temp = arr[i];
+            arr[i] = arr[i+1];
+            arr[i+1] = temp;
+        }
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -172,6 +188,10 @@ public class Main {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -179,11 +199,6 @@ public class Main {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int[] arr) {

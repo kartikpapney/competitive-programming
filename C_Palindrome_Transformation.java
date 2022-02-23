@@ -1,7 +1,7 @@
 /*
     Rating: 1367
-    Date: 21-02-2022
-    Time: 18-08-25
+    Date: 23-02-2022
+    Time: 11-25-01
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -13,17 +13,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class C_Penalty {
+
+public class C_Palindrome_Transformation {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
+        int n = sc.nextInt(), p = sc.nextInt();
         String s = sc.nextLine();
-        int f = 0, se = 0;
-        for(int i=0; i<s.length(); i+=2) {
-            f += s.charAt(i) == '1'?1:0;
-            s += s.charAt(i+1) == '1'?1:0;
+        int[] dp = new int[s.length()];
+        for(int i=0; i<s.length(); i++) {
             
         }
     }

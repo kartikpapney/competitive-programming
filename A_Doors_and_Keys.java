@@ -1,7 +1,7 @@
 /*
     Rating: 1367
-    Date: 21-02-2022
-    Time: 18-08-25
+    Date: 22-02-2022
+    Time: 20-06-49
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -13,23 +13,30 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class C_Penalty {
+
+public class A_Doors_and_Keys {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
         String s = sc.nextLine();
-        int f = 0, se = 0;
-        for(int i=0; i<s.length(); i+=2) {
-            f += s.charAt(i) == '1'?1:0;
-            s += s.charAt(i+1) == '1'?1:0;
-            
+        HashSet<Character> set = new HashSet<>();
+        for(char c : s.toCharArray()) {
+            if(c == 'R' || c == 'G' || c == 'B') {
+                if(!set.contains((char)(c - 'A' + 'a'))) {
+                    p.writeln("NO");
+                    return;
+                }
+            }
+            set.add(c);
         }
+        p.writeln("YES");
+
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -175,6 +182,10 @@ public class C_Penalty {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -182,11 +193,6 @@ public class C_Penalty {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int[] arr) {

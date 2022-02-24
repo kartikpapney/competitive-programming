@@ -1,7 +1,7 @@
 /*
     Rating: 1367
     Date: 23-02-2022
-    Time: 18-32-14
+    Time: 18-46-40
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,33 +14,32 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_QAQ {
+public class B_Napoleon_Cake {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        String s = sc.nextLine();
-        int[] lq = new int[s.length()], rq = new int[s.length()];
-        int q = 0;
-        for(int i=0; i<lq.length; i++) {
-            lq[i] = q;
-            if(s.charAt(i) == 'Q') q++;
-        } 
-        q = 0;
-        for(int i=rq.length-1; i>=0; i--) {
-            rq[i] = q;
-            if(s.charAt(i) == 'Q') q++;
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        int[] ans = new int[n];
+        for(int i=0; i<arr.length; i++) {
+            if(arr[i] == 0) continue;
+            ans[i] += 1;
+            if(i >= arr[i]) ans[i - arr[i]] -= 1;
         }
-        int ans = 0;
-        for(int i=1; i<s.length()-1; i++) {
-            if(s.charAt(i) == 'A') ans += lq[i]*rq[i];
+        for(int i=ans.length-2; i>=0; i-- ) {
+            ans[i] += ans[i+1];
         }
-        p.writeln(ans);
+        for(int val : ans) {
+            if(val == 0) p.writes(val);
+            else p.writes(1);
+        }
+        p.writeln();
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -186,6 +185,10 @@ public class A_QAQ {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -193,11 +196,6 @@ public class A_QAQ {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int[] arr) {

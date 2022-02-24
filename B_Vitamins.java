@@ -1,7 +1,7 @@
 /*
-    Rating: 1367
-    Date: 23-02-2022
-    Time: 18-32-14
+    Rating: 1461
+    Date: 24-02-2022
+    Time: 17-36-49
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,29 +14,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_QAQ {
+public class B_Vitamins {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
+    static class Pair {
+        int n;
+        String s;
+        public Pair(int n, String s) {
+            this.n = n;
+            this.s = s;
+        }
+    }
     public static void s() {
-        String s = sc.nextLine();
-        int[] lq = new int[s.length()], rq = new int[s.length()];
-        int q = 0;
-        for(int i=0; i<lq.length; i++) {
-            lq[i] = q;
-            if(s.charAt(i) == 'Q') q++;
-        } 
-        q = 0;
-        for(int i=rq.length-1; i>=0; i--) {
-            rq[i] = q;
-            if(s.charAt(i) == 'Q') q++;
+        int n = sc.nextInt();
+        Pair[] arr = new Pair[n];
+        for(int i=0; i<arr.length; i++) {
+            String[] inp = sc.nextLine().split(" ");
+            arr[i].n = Integer.parseInt(inp[0]);
+            arr[i].s = inp[1];
         }
-        int ans = 0;
-        for(int i=1; i<s.length()-1; i++) {
-            if(s.charAt(i) == 'A') ans += lq[i]*rq[i];
-        }
-        p.writeln(ans);
+        
     }
     public static void main(String[] args) {
         int t = 1;

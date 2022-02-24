@@ -1,7 +1,7 @@
 /*
-    Rating: 1367
-    Date: 23-02-2022
-    Time: 18-32-14
+    Rating: 1461
+    Date: 24-02-2022
+    Time: 17-19-41
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_QAQ {
+public class A_Reposts {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    public static void s() {
-        String s = sc.nextLine();
-        int[] lq = new int[s.length()], rq = new int[s.length()];
-        int q = 0;
-        for(int i=0; i<lq.length; i++) {
-            lq[i] = q;
-            if(s.charAt(i) == 'Q') q++;
-        } 
-        q = 0;
-        for(int i=rq.length-1; i>=0; i--) {
-            rq[i] = q;
-            if(s.charAt(i) == 'Q') q++;
+    static String fn() {
+        StringBuilder s = new StringBuilder(sc.nextLine());
+        for(int i=0; i<s.length(); i++) {
+            if(s.charAt(i) >= 'A' && s.charAt(i) <= 'Z') s.setCharAt(i, (char)(s.charAt(i) - 'A' + 'a'));
         }
+        return s.toString();
+    }
+    public static void s() {
+        int n = sc.nextInt();
+        HashMap<String, Integer> map = new HashMap<>();
         int ans = 0;
-        for(int i=1; i<s.length()-1; i++) {
-            if(s.charAt(i) == 'A') ans += lq[i]*rq[i];
+        for(int i=0; i<n; i++) {
+            String[] arr = fn().split(" ");
+            int popularity =  map.getOrDefault(arr[2], 1) + 1;
+            map.put(arr[0], popularity);
+            ans = Math.max(ans, popularity);
+            // p.writeln(ans);
         }
         p.writeln(ans);
     }

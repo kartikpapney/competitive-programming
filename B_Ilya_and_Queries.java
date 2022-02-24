@@ -1,7 +1,7 @@
 /*
     Rating: 1367
     Date: 23-02-2022
-    Time: 18-32-14
+    Time: 19-44-29
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,29 +14,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_QAQ {
+public class B_Ilya_and_Queries {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
         String s = sc.nextLine();
-        int[] lq = new int[s.length()], rq = new int[s.length()];
-        int q = 0;
-        for(int i=0; i<lq.length; i++) {
-            lq[i] = q;
-            if(s.charAt(i) == 'Q') q++;
-        } 
-        q = 0;
-        for(int i=rq.length-1; i>=0; i--) {
-            rq[i] = q;
-            if(s.charAt(i) == 'Q') q++;
+        int[] dp = new int[s.length()];
+        for(int i=1; i<dp.length; i++) {
+            if(s.charAt(i) == s.charAt(i-1)) dp[i] = 1;
         }
-        int ans = 0;
-        for(int i=1; i<s.length()-1; i++) {
-            if(s.charAt(i) == 'A') ans += lq[i]*rq[i];
+        for(int i=1; i<dp.length; i++) dp[i]+=dp[i-1];
+        int m = sc.nextInt();
+        for(int i=0; i<m; i++) {
+            int l = sc.nextInt();
+            int r = sc.nextInt();
+            p.writeln(dp[r-1] - dp[l-1]);
         }
-        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;

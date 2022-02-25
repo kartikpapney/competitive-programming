@@ -1,7 +1,7 @@
 /*
     Rating: 1461
     Date: 24-02-2022
-    Time: 18-54-36
+    Time: 21-17-58
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,35 +14,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class B_Orac_and_Models {
+public class B_Modulo_Sum {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = new int[n+1]; for(int i=1; i<=n; i++) arr[i] = sc.nextInt();
-        int[] dp = new int[n+1];
-        int ans = 0;
-        for(int i=1; i<dp.length; i++) {
-            dp[i] = 1;
-            for(int j=1; j*j <= i && i != j; j++) {
-                if(i%j == 0) {
-                    if(arr[j] < arr[i]) {
-                        dp[i] = Math.max(dp[j] + 1, dp[i]);
-                    }
-                    if(arr[i/j] < arr[i]) {
-                        dp[i] = Math.max(dp[i/j] + 1, dp[i]);
-                    }
-                }
-            }
-            ans = Math.max(ans, dp[i]);
-        }
-        p.writeln(ans);
+        int m = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        for(int i=0; i<arr.length; i++) arr[i]%=m;
+        int[] rr = new int[(int)m+1];
+        for(int val : arr) rr[val%m]++;
+        
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -188,10 +176,6 @@ public class B_Orac_and_Models {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -199,6 +183,11 @@ public class B_Orac_and_Models {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int[] arr) {

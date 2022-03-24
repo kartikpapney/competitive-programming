@@ -1,7 +1,7 @@
 /*
-    Rating: 1367
-    Date: 22-02-2022
-    Time: 20-10-02
+    Rating: 1461
+    Date: 26-02-2022
+    Time: 19-54-15
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,35 +14,34 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+public class Cpbinary {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
+    static long count(long n) {
+        long cnt = 0;
+        for(int i=0; i<32; i++) {
+            if((n&(1<<i)) != 0) cnt++;
+        }
+        return cnt;
+    }
     public static void s() {
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for(int i=0; i<arr.length; i++) arr[n-i-1] = i+1;
-        for(int i=0; i<arr.length; i++) {
-            p.writes(arr[i]);
-        }
-        p.writeln();
-        for(int i=0; i<arr.length-1; i++) {
-            int temp = arr[i];
-            arr[i] = arr[i+1];
-            arr[i+1] = temp;
-            for(int j=0; j<arr.length; j++) {
-                p.writes(arr[j]);
+        long n = sc.nextLong(), pp = sc.nextLong();
+        for(int i=1; i <= 32; i++) {
+            long copy = n - i*pp;
+            if(copy <= 0) break;
+            long cnt = count(copy);
+            if(cnt <= i && copy >= i) {
+                p.writeln(i);
+                return;
             }
-            p.writeln();
-            temp = arr[i];
-            arr[i] = arr[i+1];
-            arr[i+1] = temp;
         }
+        p.writeln(-1);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -188,10 +187,6 @@ public class Main {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -199,6 +194,11 @@ public class Main {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int[] arr) {
@@ -289,4 +289,4 @@ public class Main {
             return str;
         }
     }
-}
+}   

@@ -1,7 +1,7 @@
 /*
-    Rating: 1367
-    Date: 24-11-2021
-    Time: 00-13-18
+    Rating: 1461
+    Date: 25-03-2022
+    Time: 01-17-43
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,30 +14,30 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class B_Make_Them_Odd {
+public class C_Create_The_Teams {
+    public static boolean debug = false;
+    static void debug(String st) {
+        if(debug) p.writeln(st);
+    }
     public static void s() {
         int n = sc.nextInt();
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-        for(int i=0; i<n; i++) {
-            int val = sc.nextInt();
-            if(val%2 == 0) {
-                pq.add(val);
+        long x = sc.nextLong();
+        long[] arr = sc.readLongArray(n);
+        PriorityQueue<Long> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for(long v : arr) pq.add(v);
+        int cnt = 0;
+        long cv = 1;
+        long ans = 0;
+        while(pq.size() > 0) {
+            cv=pq.poll();
+            cnt++;
+            if(cv*cnt >= x) {
+                cnt = 0;
+                cv = 1;
+                ans++;
             }
         }
-        int count = 0;
-        while(pq.size() != 0) {
-            int val = pq.peek();
-            int c = 0;
-            while(!pq.isEmpty() && val == pq.peek()) {
-                c++;
-                pq.poll();
-            }
-            if((val/2)%2 == 0) while(c-- != 0) pq.add(val/2);
-            count++;
-            // p.writeln(val);
-        }
-        p.writeln(count);
-        // p.writeln();
+        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -190,6 +190,14 @@ public class B_Make_Them_Odd {
         public void writeln() {
             char c = '\n';
             strb.append(c);
+        }
+        public void yes() {
+            char c = '\n';
+            writeln("YES");
+        }
+
+        public void no() {
+            writeln("NO");
         }
 
         public void writes(int[] arr) {

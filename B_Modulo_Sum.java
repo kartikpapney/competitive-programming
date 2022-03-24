@@ -23,10 +23,19 @@ public class B_Modulo_Sum {
         int n = sc.nextInt();
         int m = sc.nextInt();
         int[] arr = sc.readArray(n);
-        for(int i=0; i<arr.length; i++) arr[i]%=m;
-        int[] rr = new int[(int)m+1];
-        for(int val : arr) rr[val%m]++;
-        
+        if(n > m) {
+            p.writeln("YES");
+        } else {
+            boolean[] can = new boolean[m];
+            for(int i=1; i<=arr.length; i++) {
+                boolean[] p = can.clone();
+                for(int j=0; j<m; j++) {
+                    can[j] |= (arr[i-1]%m == j);
+                    can[j] |= p[((j-arr[i-1]%m)%m + m)%m];
+                }
+            }
+            p.writeln(can[0]?"YES":"NO");
+        }
     }
     public static void main(String[] args) {
         int t = 1;

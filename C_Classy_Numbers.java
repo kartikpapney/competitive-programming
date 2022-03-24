@@ -1,7 +1,7 @@
 /*
-    Rating: 1367
-    Date: 24-02-2022
-    Time: 16-19-05
+    Rating: 1461
+    Date: 25-02-2022
+    Time: 18-23-07
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,92 +12,58 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
 
 
-public class A_Flipping_Game {
-    public static long gcd(long a, long b) {
-        if (a == 0) return b;
-        return gcd(b % a, a);
-    }
-    public List<Integer> replaceNonCoprimes(int[] nums) {
-        LinkedList<Integer> res = new LinkedList<>();
-        for(int val : nums) {
-            while(true) {
-                long lastelement = res.isEmpty()?1:res.getLast();
-                long gcd = gcd(lastelement, val);
-                if(gcd == 1) break;
-                val*=lastelement;
-                val/=gcd;
-            }   
-            res.add(val);
-        }
-        return res;
-    }
-
+public class C_Classy_Numbers {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    static ArrayList<Long> nm = new ArrayList<>();
-    static HashSet<ArrayList<Long>> cln = new HashSet<>();
-    public static void fi(int i, long sum, long nt) {
-        if(i == nm.size()) {
-            if(cntBit(sum) == 1) return;
-            ArrayList<Long> x = new ArrayList<>();
-            x.add(sum);
-            x.add(nt);
-            cln.add(x);
+    static ArrayList<Long> arr = new ArrayList<>();
+    public static void generate(Long pos, Long cnt, Long curr) {
+        if(pos == 18) {
+            arr.add(curr);
             return;
         }
-        fi(i+1, sum + nm.get(i), nt + 1);
-        fi(i+1, sum, nt);
-        Collections.rev
-    }
-    public static void f() {
-        HashSet<Long> set = new HashSet<>();
-        long f = 1;
-        long c = 1;
-        while(f <= 1e12) {
-            set.add(f);
-            f*=(c+1);
-            c++;
+        generate(pos + 1, cnt, curr*10);
+        if(cnt < 3) {
+            for(int i=1; i<=9; i++) generate(pos+1, cnt+1, curr*10 + i);
         }
-        for(long val : set) nm.add(val);
-        // Collections.sort(cln);
-        fi(0, 0l, 0l);
     }
-    static int cntBit(long n) {
-        int c = 0;
-        while(n != 0) {
-            c++;
-            n -= (n&(-n));
-        }
-        return c;
-    }
-    public static void s() {
-        long n = sc.nextLong();
-        long c = cntBit(n);
-        for(ArrayList<Long> ar : cln) {
-            long val = ar.get(0);
-            long nt = ar.get(1);
-            if((n|val) == n && n-val != 1) {
-                int copy = cntBit(n-val);
-                // c = Math.min(c, cntBit(copy));
-                if(c > copy + nt) {
-                    c = copy + nt;
-                    // p.writeln(n + " " + val + " ");
-                }
+    static int lowerBound(ArrayList<Long> arr, long val) {
+        int l = 0, r  = arr.size()-1;
+        while(l <= r) {
+            int mid = l + (r-l)/2;
+            if(arr.get(mid) > val) {
+                
+            } else {
+
             }
         }
-        p.writeln(c);
-        // p.writeln();
+    }
+    static int upperBound(ArrayList<Long> arr, int val) {
+        int start = 0, end = arr.size();
+        int ans = arr.size();
+        while(start < end) {
+            int mid = start + (end - start)/2;
+            if(arr.get(mid) >= val) {
+                end = mid;
+                ans = mid;
+            } else {
+                start = mid+1;
+            }
+        }
+        return ans;
+    }
+    public static void s() {
+        Long l = sc.nextLong(), r = sc.nextLong();
+        
     }
     public static void main(String[] args) {
-        f();
+        generate(0, 0, 0);
         int t = 1;
-        // p.writes(cln.size());
-        // p.writeln();
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

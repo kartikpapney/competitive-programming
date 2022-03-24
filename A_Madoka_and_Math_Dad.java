@@ -1,7 +1,7 @@
 /*
-    Rating: 1367
-    Date: 24-02-2022
-    Time: 16-19-05
+    Rating: 1461
+    Date: 11-03-2022
+    Time: 20-05-54
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,89 +14,49 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
-    public static long gcd(long a, long b) {
-        if (a == 0) return b;
-        return gcd(b % a, a);
-    }
-    public List<Integer> replaceNonCoprimes(int[] nums) {
-        LinkedList<Integer> res = new LinkedList<>();
-        for(int val : nums) {
-            while(true) {
-                long lastelement = res.isEmpty()?1:res.getLast();
-                long gcd = gcd(lastelement, val);
-                if(gcd == 1) break;
-                val*=lastelement;
-                val/=gcd;
-            }   
-            res.add(val);
-        }
-        return res;
-    }
-
+public class A_Madoka_and_Math_Dad {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    static ArrayList<Long> nm = new ArrayList<>();
-    static HashSet<ArrayList<Long>> cln = new HashSet<>();
-    public static void fi(int i, long sum, long nt) {
-        if(i == nm.size()) {
-            if(cntBit(sum) == 1) return;
-            ArrayList<Long> x = new ArrayList<>();
-            x.add(sum);
-            x.add(nt);
-            cln.add(x);
-            return;
-        }
-        fi(i+1, sum + nm.get(i), nt + 1);
-        fi(i+1, sum, nt);
-        Collections.rev
-    }
-    public static void f() {
-        HashSet<Long> set = new HashSet<>();
-        long f = 1;
-        long c = 1;
-        while(f <= 1e12) {
-            set.add(f);
-            f*=(c+1);
-            c++;
-        }
-        for(long val : set) nm.add(val);
-        // Collections.sort(cln);
-        fi(0, 0l, 0l);
-    }
-    static int cntBit(long n) {
-        int c = 0;
-        while(n != 0) {
-            c++;
-            n -= (n&(-n));
-        }
-        return c;
-    }
     public static void s() {
-        long n = sc.nextLong();
-        long c = cntBit(n);
-        for(ArrayList<Long> ar : cln) {
-            long val = ar.get(0);
-            long nt = ar.get(1);
-            if((n|val) == n && n-val != 1) {
-                int copy = cntBit(n-val);
-                // c = Math.min(c, cntBit(copy));
-                if(c > copy + nt) {
-                    c = copy + nt;
-                    // p.writeln(n + " " + val + " ");
+        int n = sc.nextInt();
+        ArrayList<Integer> res = new ArrayList<>();
+        if(n%3 == 1) {
+            while(n != 0) {
+                if(n == 1) {
+                    res.add(1);
+                    n-=1;
+                } else if(n == 2) {
+                    res.add(2);
+                    n-=2;
+                } else {
+                    res.add(1);
+                    res.add(2);
+                    n-=3;
+                }
+            }
+        } else {
+            while(n != 0) {
+                if(n == 1) {
+                    res.add(1);
+                    n-=1;
+                } else if(n == 2) {
+                    res.add(2);
+                    n-=2;
+                } else {
+                    res.add(2);
+                    res.add(1);
+                    n-=3;
                 }
             }
         }
-        p.writeln(c);
-        // p.writeln();
+        
+        for(int val : res) p.write(val);
+        p.writeln();
     }
     public static void main(String[] args) {
-        f();
         int t = 1;
-        // p.writes(cln.size());
-        // p.writeln();
         t = sc.nextInt();
         while (t-- != 0) {
             s();
@@ -243,6 +203,10 @@ public class A_Flipping_Game {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -250,11 +214,6 @@ public class A_Flipping_Game {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int[] arr) {
@@ -345,4 +304,4 @@ public class A_Flipping_Game {
             return str;
         }
     }
-}
+}   

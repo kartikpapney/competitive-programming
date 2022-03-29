@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 10-03-2022
-    Time: 21-12-44
+    Date: 27-03-2022
+    Time: 11-49-43
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,17 +14,34 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Fault-tolerant_Network {
+public class C_Vasya_and_String {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        String s = sc.nextLine();
+        int left = 0;
+        int right = 0;
+        int a = 0, b = 0;
+        int max = 0;
+        for(right=0; right < s.length(); right++) {
+            if(s.charAt(right) == 'a') a++;
+            else b++;
+            while(right - left + 1 - a > k && right - left + 1 - b > k) {
+                if(s.charAt(left) == 'a') a--;
+                else b--;
+                left++;
+            }
+            max = Math.max(max, right - left + 1);
+        }
+        p.writeln(max);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -170,10 +187,6 @@ public class C_Fault-tolerant_Network {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -181,6 +194,11 @@ public class C_Fault-tolerant_Network {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int[] arr) {

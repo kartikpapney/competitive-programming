@@ -1,7 +1,7 @@
 /*
     Rating: 1461
     Date: 29-03-2022
-    Time: 11-56-29
+    Time: 13-24-25
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -22,6 +22,22 @@ public class B_Integral_Array {
     public static void s() {
         int n = sc.nextInt(), c = sc.nextInt();
         int[] arr = sc.readArray(n);
+        int[] cnt = new int[c+1];
+        for(int val : arr) cnt[val]++;
+        int[] prefix = new int[c+1];
+        for(int i=1; i<prefix.length; i++) prefix[i] = prefix[i-1] + cnt[i];
+        for(int i=1; i<=c; i++) {
+            if(cnt[i] == 0) continue;
+            for(int j=i; j<=c; j+=i) {
+                int l = j;
+                int r = Math.min(j+i-1, c);
+                if(prefix[r] - prefix[l-1] > 0 && cnt[j/i] == 0) {
+                    p.writeln("No");
+                    return;
+                }
+            }
+        }
+        p.writeln("Yes");
     }
     public static void main(String[] args) {
         int t = 1;
@@ -39,51 +55,51 @@ public class B_Integral_Array {
 
     static class Functions {
 
-        static void sort(int[] a) {
+        static void sort(int... a) {
             ArrayList<Integer> l = new ArrayList<>();
             for (int i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static void sort(long[] a) {
+        static void sort(long... a) {
             ArrayList<Long> l = new ArrayList<>();
             for (long i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static int max(int[] a) {
+        static int max(int... a) {
             int max = Integer.MIN_VALUE;
             for (int val : a) max = Math.max(val, max);
             return max;
         }
 
-        static int min(int[] a) {
+        static int min(int... a) {
             int min = Integer.MAX_VALUE;
             for (int val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long min(long[] a) {
+        static long min(long... a) {
             long min = Long.MAX_VALUE;
             for (long val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long max(long[] a) {
+        static long max(long... a) {
             long max = Long.MIN_VALUE;
             for (long val : a) max = Math.max(val, max);
             return max;
         }
 
-        static long sum(long[] a) {
+        static long sum(long... a) {
             long sum = 0;
             for (long val : a) sum += val;
             return sum;
         }
 
-        static int sum(int[] a) {
+        static int sum(int... a) {
             int sum = 0;
             for (int val : a) sum += val;
             return sum;
@@ -184,21 +200,21 @@ public class B_Integral_Array {
             writeln("NO");
         }
 
-        public void writes(int[] arr) {
+        public void writes(int... arr) {
             for (int val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writes(long[] arr) {
+        public void writes(long... arr) {
             for (long val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writeln(int[] arr) {
+        public void writeln(int... arr) {
             for (int val : arr) {
                 writeln(val);
             }

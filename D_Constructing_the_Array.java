@@ -1,7 +1,7 @@
 /*
-    Rating: 1367
-    Date: 15-01-2022
-    Time: 00-17-46
+    Rating: 1461
+    Date: 02-04-2022
+    Time: 12-01-48
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -13,14 +13,47 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class C_Product_1_Modulo_N {
+
+public class D_Constructing_the_Array {
+    public static boolean debug = false;
+    static void debug(String st) {
+        if(debug) p.writeln(st);
+    }
     public static void s() {
         int n = sc.nextInt();
-        
+        int l = 0;
+        int r = n-1;
+        int val = 1;
+        PriorityQueue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                int alen = a[1] - a[0] + 1;
+                int blen = b[1] - b[0] + 1;
+                if(alen == blen) {
+                    if(a[0] < b[0]) return -1;
+                    else if (a[0] > b[0]) return 1;
+                    return 0;
+                } else {
+                    if(alen > blen) return -1;
+                    else if (alen < blen)return 1;
+                    return 0;
+                }
+        }});
+        q.add(new int[]{l, r});
+        int[] ans = new int[n];
+        while(!q.isEmpty()) {
+            int[] rem = q.remove();
+            if(rem[0] > rem[1]) continue;
+            int pos = (rem[0] + rem[1])/2;
+            ans[pos] = val++;
+            q.add(new int[]{pos+1, rem[1]});
+            q.add(new int[]{rem[0], pos-1});
+        }
+        p.writes(ans);
+        p.writeln();
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -34,51 +67,51 @@ public class C_Product_1_Modulo_N {
 
     static class Functions {
 
-        static void sort(int[] a) {
+        static void sort(int... a) {
             ArrayList<Integer> l = new ArrayList<>();
             for (int i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static void sort(long[] a) {
+        static void sort(long... a) {
             ArrayList<Long> l = new ArrayList<>();
             for (long i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static int max(int[] a) {
+        static int max(int... a) {
             int max = Integer.MIN_VALUE;
             for (int val : a) max = Math.max(val, max);
             return max;
         }
 
-        static int min(int[] a) {
+        static int min(int... a) {
             int min = Integer.MAX_VALUE;
             for (int val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long min(long[] a) {
+        static long min(long... a) {
             long min = Long.MAX_VALUE;
             for (long val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long max(long[] a) {
+        static long max(long... a) {
             long max = Long.MIN_VALUE;
             for (long val : a) max = Math.max(val, max);
             return max;
         }
 
-        static long sum(long[] a) {
+        static long sum(long... a) {
             long sum = 0;
             for (long val : a) sum += val;
             return sum;
         }
 
-        static int sum(int[] a) {
+        static int sum(int... a) {
             int sum = 0;
             for (int val : a) sum += val;
             return sum;
@@ -170,22 +203,30 @@ public class C_Product_1_Modulo_N {
             char c = '\n';
             strb.append(c);
         }
+        public void yes() {
+            char c = '\n';
+            writeln("YES");
+        }
 
-        public void writes(int[] arr) {
+        public void no() {
+            writeln("NO");
+        }
+
+        public void writes(int... arr) {
             for (int val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writes(long[] arr) {
+        public void writes(long... arr) {
             for (long val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writeln(int[] arr) {
+        public void writeln(int... arr) {
             for (int val : arr) {
                 writeln(val);
             }

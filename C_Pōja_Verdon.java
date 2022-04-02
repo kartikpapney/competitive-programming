@@ -1,7 +1,7 @@
 /*
-    Rating: 1367
-    Date: 15-01-2022
-    Time: 00-17-46
+    Rating: 1461
+    Date: 01-04-2022
+    Time: 20-24-33
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -13,10 +13,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class C_Product_1_Modulo_N {
+
+public class C_Pōja_Verdon {
+    public static boolean debug = false;
+    static void debug(String st) {
+        if(debug) p.writeln(st);
+    }
     public static void s() {
         int n = sc.nextInt();
-        
+        int[] arr = sc.readArray(n);
+        if(arr.length%2 == 1) {
+            p.writeln(arr[n-1]);
+            return;
+        }
+        for(int i=0; i<arr.length; i+=2) {
+            if(arr[i] != arr[i+1]) {
+                p.writeln(arr[i]);
+                return;
+            }
+        }
     }
     public static void main(String[] args) {
         int t = 1;
@@ -34,51 +49,51 @@ public class C_Product_1_Modulo_N {
 
     static class Functions {
 
-        static void sort(int[] a) {
+        static void sort(int... a) {
             ArrayList<Integer> l = new ArrayList<>();
             for (int i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static void sort(long[] a) {
+        static void sort(long... a) {
             ArrayList<Long> l = new ArrayList<>();
             for (long i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static int max(int[] a) {
+        static int max(int... a) {
             int max = Integer.MIN_VALUE;
             for (int val : a) max = Math.max(val, max);
             return max;
         }
 
-        static int min(int[] a) {
+        static int min(int... a) {
             int min = Integer.MAX_VALUE;
             for (int val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long min(long[] a) {
+        static long min(long... a) {
             long min = Long.MAX_VALUE;
             for (long val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long max(long[] a) {
+        static long max(long... a) {
             long max = Long.MIN_VALUE;
             for (long val : a) max = Math.max(val, max);
             return max;
         }
 
-        static long sum(long[] a) {
+        static long sum(long... a) {
             long sum = 0;
             for (long val : a) sum += val;
             return sum;
         }
 
-        static int sum(int[] a) {
+        static int sum(int... a) {
             int sum = 0;
             for (int val : a) sum += val;
             return sum;
@@ -166,26 +181,35 @@ public class C_Product_1_Modulo_N {
             strb.append(str).append(c);
         }
 
+        public void yes() {
+            char c = '\n';
+            writeln("YES");
+        }
+
+        public void no() {
+            writeln("NO");
+        }
+
         public void writeln() {
             char c = '\n';
             strb.append(c);
         }
 
-        public void writes(int[] arr) {
+        public void writes(int... arr) {
             for (int val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writes(long[] arr) {
+        public void writes(long... arr) {
             for (long val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writeln(int[] arr) {
+        public void writeln(int... arr) {
             for (int val : arr) {
                 writeln(val);
             }

@@ -1,12 +1,41 @@
+
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+// 1 3 3 1
+// 1 - 2 - 4 - 7
+public class D_Make_Them_Equal {
     public static void s() {
-        
+        int n = sc.nextInt(), k = sc.nextInt();
+        int[] b = sc.readArray(n), c = sc.readArray(n);
+        int[] arr = new int[n];
+        int[] cnt = new int[n];
+        Arrays.fill(arr, 1);
+        for(int i=0; i<b.length; i++) {
+            while(arr[i] != b[i]) {
+                arr[i] += Math.min(arr[i], b[i] - arr[i]);
+                cnt[i]++;
+            }
+        }
+        int[][] dp = new int[n+1][k+1];
+        for(int j=1; j<dp[0].length; j++) dp[0][j] = Integer.MIN_VALUE;
+        for(int i=1; i<dp.length; i++) {
+            int idx = i-1;
+            for(int j=0; j<dp[0].length; j++) {
+                dp[i][j] = dp[i-1][j];
+                if(j-cnt[idx] >= 0) {
+                    dp[i][j] = Math.max(dp[i][j], c[idx] + dp[i-1][j-cnt[idx]]);
+                }
+                p.writes(dp[i][j]);
+            }
+            p.writeln();
+        }
+        int ans = 0;
+        for(int val : dp[n]) ans = Math.max(ans, val);
+        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;

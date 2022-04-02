@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 06-03-2022
-    Time: 15-49-05
+    Date: 29-03-2022
+    Time: 19-59-30
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -15,35 +15,6 @@ import java.io.InputStreamReader;
 
 
 public class B_Game_of_Ball_Passing {
-
-    static int findMin(int arr[], int n)
-    {
-        int sum = 0;
-        for (int i = 0; i < n; i++)
-            sum += arr[i];
-        boolean dp[][] = new boolean[n + 1][sum + 1];
-        for (int i = 0; i <= n; i++)
-            dp[i][0] = true;
-        for (int i = 1; i <= sum; i++)
-            dp[0][i] = false;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= sum; j++) {
-                dp[i][j] = dp[i - 1][j];
-                if (arr[i - 1] <= j)
-                    dp[i][j] |= dp[i - 1][j - arr[i - 1]];
-            }
-        }
-        int diff = Integer.MAX_VALUE; 
-        for (int j = sum / 2; j >= 0; j--) {
-            if (dp[n][j] == true) {
-                diff = sum - 2 * j;
-                break;
-            }
-        }
-        return diff;
-    }
-
-
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
@@ -51,12 +22,16 @@ public class B_Game_of_Ball_Passing {
     public static void s() {
         int n = sc.nextInt();
         int[] arr = sc.readArray(n);
+        Functions.sort(arr);
+        long sum = 0; 
+        for(int i=0; i<arr.length-1; i++) sum += arr[i];
         if(Functions.count(arr, 0) == n) {
             p.writeln(0);
-            return;
+        } else if(arr[n-1] > sum + 1) {
+            p.writeln(arr[n-1] - sum);
+        } else {
+            p.writeln(1);
         }
-        int diff = findMin(arr, n);
-        p.writeln(diff);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -74,51 +49,51 @@ public class B_Game_of_Ball_Passing {
 
     static class Functions {
 
-        static void sort(int[] a) {
+        static void sort(int... a) {
             ArrayList<Integer> l = new ArrayList<>();
             for (int i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static void sort(long[] a) {
+        static void sort(long... a) {
             ArrayList<Long> l = new ArrayList<>();
             for (long i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static int max(int[] a) {
+        static int max(int... a) {
             int max = Integer.MIN_VALUE;
             for (int val : a) max = Math.max(val, max);
             return max;
         }
 
-        static int min(int[] a) {
+        static int min(int... a) {
             int min = Integer.MAX_VALUE;
             for (int val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long min(long[] a) {
+        static long min(long... a) {
             long min = Long.MAX_VALUE;
             for (long val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long max(long[] a) {
+        static long max(long... a) {
             long max = Long.MIN_VALUE;
             for (long val : a) max = Math.max(val, max);
             return max;
         }
 
-        static long sum(long[] a) {
+        static long sum(long... a) {
             long sum = 0;
             for (long val : a) sum += val;
             return sum;
         }
 
-        static int sum(int[] a) {
+        static int sum(int... a) {
             int sum = 0;
             for (int val : a) sum += val;
             return sum;
@@ -219,21 +194,21 @@ public class B_Game_of_Ball_Passing {
             writeln("NO");
         }
 
-        public void writes(int[] arr) {
+        public void writes(int... arr) {
             for (int val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writes(long[] arr) {
+        public void writes(long... arr) {
             for (long val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writeln(int[] arr) {
+        public void writeln(int... arr) {
             for (int val : arr) {
                 writeln(val);
             }

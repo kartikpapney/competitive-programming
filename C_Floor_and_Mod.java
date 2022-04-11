@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 08-04-2022
-    Time: 18-39-57
+    Date: 05-04-2022
+    Time: 13-39-54
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,34 +14,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+public class C_Floor_and_Mod {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        HashSet<Integer> set = new HashSet<>();
-        int curr = n;
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        for(int i=0; i<n; i++) {
-            if(!set.contains(arr[i])) {
-                res[i] = arr[i];
-                set.add(arr[i]);
-            }
+        long x = sc.nextLong(), y = sc.nextLong();
+        // x > rem*(rem + 1);
+        long rem = 0;
+        while(rem*(rem + 1) < x) rem++;
+        rem = Math.min(rem-1, y-1);
+        long ans = 0;
+        for(int i=1; i<=rem; i++) {
+            ans += Math.min((x-i)/i, y) - (i+1) + 1;
         }
-        p.writeln(set.size());
-        for(int i=0; i<res.length; i++) {
-            if(res[i] == -1) {
-                while(set.contains(curr)) curr--;
-                res[i] = curr;
-                set.add(curr);
-            }
-        }
-        p.writes(res);
-        p.writeln();
+        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;

@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 08-04-2022
-    Time: 18-39-57
+    Date: 09-04-2022
+    Time: 21-04-34
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,35 +14,38 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+public class C_Water_the_Trees {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
+    public static long find(long[] arr, long max) {
+        long count = 0;
+        int one = 0, two = 0;
+        for(long val : arr) {
+            long copy = (max - val);
+            count += (copy/3)*2;
+            if(copy%3 == 1) one++;
+            else if(copy%3 == 2) two++;
+        }
+        if(one <= two) {
+            count += 2*one;
+            two -= one;
+            count += 2*two;
+        } else {
+            count += 2*two;
+            one -= two;
+            count += 2*one - 1;
+        }
+        return count;
+    } 
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        HashSet<Integer> set = new HashSet<>();
-        int curr = n;
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        for(int i=0; i<n; i++) {
-            if(!set.contains(arr[i])) {
-                res[i] = arr[i];
-                set.add(arr[i]);
-            }
-        }
-        p.writeln(set.size());
-        for(int i=0; i<res.length; i++) {
-            if(res[i] == -1) {
-                while(set.contains(curr)) curr--;
-                res[i] = curr;
-                set.add(curr);
-            }
-        }
-        p.writes(res);
-        p.writeln();
+        long[] arr = sc.readLongArray(n);
+        long max = Functions.max(arr);
+        p.writeln(Functions.min(find(arr, max), find(arr, max+1), find(arr, max+2), find(arr, max+3)));
     }
+    
     public static void main(String[] args) {
         int t = 1;
         t = sc.nextInt();

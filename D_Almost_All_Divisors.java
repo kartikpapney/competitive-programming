@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 08-04-2022
-    Time: 18-39-57
+    Date: 04-04-2022
+    Time: 20-44-22
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,34 +14,40 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+public class D_Almost_All_Divisors {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
+    public static int count(long n) {
+        int count = 0;
+        for(long curr = 2; curr*curr <= n; curr++) {
+            if(n%curr == 0) count += (curr*curr==n?1:2);
+        }
+        return count;
+    }
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        HashSet<Integer> set = new HashSet<>();
-        int curr = n;
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        for(int i=0; i<n; i++) {
-            if(!set.contains(arr[i])) {
-                res[i] = arr[i];
-                set.add(arr[i]);
+        long[] arr = sc.readLongArray(n);
+        Functions.sort(arr);
+        int start = 1;
+        int end = arr.length-2;
+        long res = arr[0]*arr[n-1];
+        boolean check = true;
+        while(start <= end) {
+            if(arr[start]*arr[end] != res) {
+                check = false;
+            }
+            start++;
+            end--;
+        }
+        if(check) {
+            if(count(res) == n) {
+                p.writeln(res);
+                return;
             }
         }
-        p.writeln(set.size());
-        for(int i=0; i<res.length; i++) {
-            if(res[i] == -1) {
-                while(set.contains(curr)) curr--;
-                res[i] = curr;
-                set.add(curr);
-            }
-        }
-        p.writes(res);
-        p.writeln();
+        p.writeln(-1);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -191,10 +197,6 @@ public class Main {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -202,6 +204,11 @@ public class Main {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

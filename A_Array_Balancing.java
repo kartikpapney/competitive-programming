@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 08-04-2022
-    Time: 18-39-57
+    Date: 09-04-2022
+    Time: 20-06-54
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+public class A_Array_Balancing {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
@@ -22,26 +22,20 @@ public class Main {
     public static void s() {
         int n = sc.nextInt();
         int[] arr = sc.readArray(n);
-        HashSet<Integer> set = new HashSet<>();
-        int curr = n;
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        for(int i=0; i<n; i++) {
-            if(!set.contains(arr[i])) {
-                res[i] = arr[i];
-                set.add(arr[i]);
+        int[] brr = sc.readArray(n);
+        for(int i=0; i<arr.length; i++) {
+            if(arr[i] > brr[i]) {
+                int temp = arr[i];
+                arr[i] = brr[i];
+                brr[i] = temp;
             }
         }
-        p.writeln(set.size());
-        for(int i=0; i<res.length; i++) {
-            if(res[i] == -1) {
-                while(set.contains(curr)) curr--;
-                res[i] = curr;
-                set.add(curr);
-            }
+        long sum = 0;
+        for(int i=0; i<n-1; i++) {
+            sum += Math.abs(arr[i] - arr[i+1]);
+            sum += Math.abs(brr[i] - brr[i+1]);
         }
-        p.writes(res);
-        p.writeln();
+        p.writeln(sum);
     }
     public static void main(String[] args) {
         int t = 1;

@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 08-04-2022
-    Time: 18-39-57
+    Date: 04-04-2022
+    Time: 20-20-41
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,38 +14,40 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+public class E_Two_Arrays_and_Sum_of_Functions {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
+    public static long ans(long[] arr, long n) {
+        long res = 0;
+        for(int i=0; i<arr.length; i++) {
+            res += arr[i];
+            res%=MOD;
+        }
+        return res;
+    }
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        HashSet<Integer> set = new HashSet<>();
-        int curr = n;
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        for(int i=0; i<n; i++) {
-            if(!set.contains(arr[i])) {
-                res[i] = arr[i];
-                set.add(arr[i]);
-            }
+        long[] arr = sc.readLongArray(n);
+        long[] brr = sc.readLongArray(n);
+        for(int i=0;i<arr.length; i++) {
+            arr[i]*=(i+1);
+            arr[i]*=(n-i);
         }
-        p.writeln(set.size());
-        for(int i=0; i<res.length; i++) {
-            if(res[i] == -1) {
-                while(set.contains(curr)) curr--;
-                res[i] = curr;
-                set.add(curr);
-            }
+        Functions.sort(arr);
+        Functions.sort(brr);
+        long[] crr = new long[n];
+        for(int i=0; i<arr.length; i++) {
+            long left = arr[i];
+            long right = brr[n-i-1];
+            crr[i] = Functions.mod_mul(left, right);
         }
-        p.writes(res);
-        p.writeln();
+        p.writeln(ans(crr, n));
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -53,7 +55,7 @@ public class Main {
     }
 
 
-    static final Integer MOD = (int) 1e9 + 7;
+    static final Integer MOD = (int) 998244353 ;
     static final FastReader sc = new FastReader();
     static final Print p = new Print();
 

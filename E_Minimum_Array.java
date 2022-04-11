@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 08-04-2022
-    Time: 18-39-57
+    Date: 04-04-2022
+    Time: 21-01-23
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+public class E_Minimum_Array {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
@@ -22,30 +22,28 @@ public class Main {
     public static void s() {
         int n = sc.nextInt();
         int[] arr = sc.readArray(n);
-        HashSet<Integer> set = new HashSet<>();
-        int curr = n;
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        for(int i=0; i<n; i++) {
-            if(!set.contains(arr[i])) {
-                res[i] = arr[i];
-                set.add(arr[i]);
+        int[] brr = sc.readArray(n);
+        TreeMap<Integer, Integer> set = new TreeMap<>();
+        for(int val : brr)  set.put(val, set.getOrDefault(val, 0) + 1);
+        // System.out.println(set);
+        for(int i=0; i<arr.length; i++) {
+            int a = set.firstKey();
+            Integer b = set.higherKey(n-arr[i]-1);
+            if(b == null) b = n-arr[i]-1;
+            if((a+arr[i])%n <= (b+arr[i])%n) {
+                p.writes((a+arr[i])%n);
+                set.put(a, set.getOrDefault(a, 0) - 1);
+                if(set.get(a) == 0) set.remove(a);
+            } else {
+                p.writes((b+arr[i])%n);
+                set.put(b, set.getOrDefault(b, 0) - 1);
+                if(set.get(b) == 0) set.remove(b);
             }
         }
-        p.writeln(set.size());
-        for(int i=0; i<res.length; i++) {
-            if(res[i] == -1) {
-                while(set.contains(curr)) curr--;
-                res[i] = curr;
-                set.add(curr);
-            }
-        }
-        p.writes(res);
-        p.writeln();
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

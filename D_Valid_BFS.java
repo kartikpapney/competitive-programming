@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 16-04-2022
+    Time: 11-05-06
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,54 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class D_Valid_BFS {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        ArrayList<HashSet<Integer>> arr = new ArrayList<>();
+        boolean[] visited = new boolean[n+1];
+        for(int i=0; i<=n; i++) arr.add(new HashSet<>());
+        for(int i=0; i<n-1; i++) {
+            int src = sc.nextInt();
+            int des = sc.nextInt();
+            arr.get(des).add(src);
+            arr.get(src).add(des);
+        }
+        int[] path = sc.readArray(n);
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(1);
+        int idx = 1;
+        if(path[0] != 1) {
+            p.writeln("No");
+            return;
+        }
+        while(!q.isEmpty()) {
+            int size = q.size();
+            while(size-- != 0) {
+                int pop = q.remove();
+                visited[pop] = true;
+                HashSet<Integer> children = arr.get(pop);
+                int end = idx + children.size();
+                for(; idx<end; idx++) {
+                    if(!children.contains(path[idx])) {
+                        p.writeln("No");
+                        return;
+                    }
+                    q.add(path[idx]);
+                    arr.get(path[idx]).remove(pop);
+                }
             }
         }
-        p.writeln(maxans);
+        for(int i=1; i<=n; i++) {
+            if(!visited[i]) {
+                p.writeln("No");
+                return;
+            }
+        }
+        p.writeln("Yes");
     }
     public static void main(String[] args) {
         int t = 1;

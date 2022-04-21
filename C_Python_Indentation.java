@@ -1,7 +1,7 @@
 /*
     Rating: 1461
     Date: 18-04-2022
-    Time: 17-56-46
+    Time: 15-21-04
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,35 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class C_Python_Indentation {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        char[] arr = new char[n];
+        for(int i=0; i<arr.length; i++) arr[i] = sc.nextLine().charAt(0);
+        int[][] dp = new int[n][n];
+        dp[0][0] = 1;
+        for(int i=1; i<dp.length; i++) {
+            if(arr[i-1] == 'f') {
+                for(int j=1; j<dp.length; j++) {
+                    dp[i][j] = dp[i-1][j-1];
+                }
+            } else {
+                int sum = 0;
+                for(int j=dp.length-1; j>=0; j--) {
+                    sum = (sum + dp[i-1][j])%(int)MOD;
+                    dp[i][j] = sum;
+                }
             }
         }
-        p.writeln(maxans);
+        int sum = 0;
+        for(int i=0; i<dp.length; i++) {
+            sum = (sum + dp[n-1][i])%(int)MOD;
+        }
+        p.writeln(sum);
     }
     public static void main(String[] args) {
         int t = 1;

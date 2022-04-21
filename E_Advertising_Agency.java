@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 12-04-2022
+    Time: 11-59-44
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,31 +14,60 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class E_Advertising_Agency {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
+    static int nCrModp(int n, int r, int p)
+	{
+		if (r > n - r)
+			r = n - r;
+
+		// The array C is going to store last
+		// row of pascal triangle at the end.
+		// And last entry of last row is nCr
+		int C[] = new int[r + 1];
+
+		C[0] = 1; // Top row of Pascal Triangle
+
+		// One by constructs remaining rows of Pascal
+		// Triangle from top to bottom
+		for (int i = 1; i <= n; i++) {
+
+			// Fill entries of current row using previous
+			// row values
+			for (int j = Math.min(i, r); j > 0; j--)
+
+				// nCj = (n-1)Cj + (n-1)C(j-1);
+				C[j] = (C[j] + C[j - 1]) % p;
+		}
+		return C[r];
+	}
+ 
     public static void s() {
-        int n = sc.nextInt();
+        int n = sc.nextInt(), k = sc.nextInt();
         int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
-            }
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int val : arr) {
+            map.put(val, map.getOrDefault(val, 0) + 1);
         }
-        p.writeln(maxans);
+        Functions.sort(arr);
+        HashMap<Integer, Integer> required = new HashMap<>();
+        for(int i=0; i<k; i++) {
+            int val = arr[i];
+            required.put(val, required.getOrDefault(val, 0) + 1);
+        }
+        // System.out.println(nCrModPFermat(4, 2, MOD));
+        long ans = 1;
+        for(Map.Entry<Integer, Integer> mp : required.entrySet()) {
+            ans = Functions.mod_mul(ans, nCrModp(map.get(mp.getKey()), mp.getValue(), MOD));
+        }
+        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -55,7 +84,7 @@ public class A_Flipping_Game {
         static void sort(int... a) {
             ArrayList<Integer> l = new ArrayList<>();
             for (int i : a) l.add(i);
-            Collections.sort(l);
+            Collections.sort(l, Collections.reverseOrder());
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
@@ -184,6 +213,10 @@ public class A_Flipping_Game {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -191,11 +224,6 @@ public class A_Flipping_Game {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

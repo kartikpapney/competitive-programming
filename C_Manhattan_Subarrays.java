@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 14-04-2022
+    Time: 19-34-32
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,34 +14,38 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class C_Manhattan_Subarrays {
+    static int t = 1;
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
+    public static boolean c(int x1, int x2, int x3) {
+        return !((x1>=x2 && x2 >= x3) || (x1<=x2 && x2 <= x3));
+    }  
+
     public static void s() {
         int n = sc.nextInt();
         int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        long ans = n + n-1;
+        for(int i=0; i<arr.length-3; i++) {
+            int x1 = arr[i];
+            int x2 = arr[i+1];
+            int x3 = arr[i+2];
+            int x4 = arr[i+3];
+            if(c(x1, x2, x3)) {
+                ans++;
+                if(c(x2, x3, x4) && c(x1, x2, x4) && c(x1, x3, x4)) ans++;
             }
+            
         }
-        p.writeln(maxans);
+        if(n >= 3 && c(arr[n-3], arr[n-2], arr[n-1])) ans++;
+        p.writeln(ans);
+        
     }
     public static void main(String[] args) {
-        int t = 1;
-        // t = sc.nextInt();
-        while (t-- != 0) {
-            s();
-        }
+        t = sc.nextInt();
+        while(t-- != 0) s();
         p.print();
     }
 
@@ -184,6 +188,10 @@ public class A_Flipping_Game {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -191,11 +199,6 @@ public class A_Flipping_Game {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

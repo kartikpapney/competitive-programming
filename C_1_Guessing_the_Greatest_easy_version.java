@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 11-04-2022
+    Time: 12-38-28
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,55 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class C_1_Guessing_the_Greatest_easy_version {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
+    public static int ask(int left, int right) {
+        if(left >= right) return -1;
+        System.out.println("? " + left + " " + right);
+        System.out.println();
+        int pos = sc.nextInt();
+        sc.nextLine();
+        return pos;
+    }
+
+    // 1 2 3 4 5 6 7
+    // 
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        sc.nextLine();
+        int left = 1;
+        int right = n;
+        while(left < right) {
+            // [l, mid), [mid, r]
+            int mid = left+(right - left)/2;
+            int smax = ask(left, right);
+            if(smax <= mid) {
+                int npos = ask(left, mid);
+                if(npos == smax) {
+                    right = mid;
+                } else {
+                    left = mid+1;
+                }
+            } else {
+                int npos = ask(mid+1, right);
+                if(npos == smax) {
+                    left = mid+1;
+                } else {
+                    right = mid;
+                }
             }
         }
-        p.writeln(maxans);
+        // int smax = ask(left, right);
+        // if(smax == left) {
+            
+        // } else {    
+        //     System.out.println("! " + left);
+        // }
+        System.out.println("! " + right);
+        
     }
     public static void main(String[] args) {
         int t = 1;
@@ -47,7 +75,7 @@ public class A_Flipping_Game {
 
 
     static final Integer MOD = (int) 1e9 + 7;
-    static final FastReader sc = new FastReader();
+    static final Scanner sc = new Scanner(System.in);
     static final Print p = new Print();
 
     static class Functions {
@@ -227,63 +255,63 @@ public class A_Flipping_Game {
         }
     }
 
-    static class FastReader {
-        BufferedReader br;
-        StringTokenizer st;
+    // static class FastReader {
+    //     BufferedReader br;
+    //     StringTokenizer st;
 
-        public FastReader() {
-            br = new BufferedReader(new InputStreamReader(System.in));
-        }
+    //     public FastReader() {
+    //         br = new BufferedReader(new InputStreamReader(System.in));
+    //     }
 
-        String next() {
-            while (st == null || !st.hasMoreElements()) {
-                try {
-                    st = new StringTokenizer(br.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return st.nextToken();
-        }
+    //     String next() {
+    //         while (st == null || !st.hasMoreElements()) {
+    //             try {
+    //                 st = new StringTokenizer(br.readLine());
+    //             } catch (IOException e) {
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //         return st.nextToken();
+    //     }
 
-        int nextInt() {
-            return Integer.parseInt(next());
-        }
+    //     int nextInt() {
+    //         return Integer.parseInt(next());
+    //     }
 
-        long nextLong() {
-            return Long.parseLong(next());
-        }
+    //     long nextLong() {
+    //         return Long.parseLong(next());
+    //     }
 
-        double nextDouble() {
-            return Double.parseDouble(next());
-        }
+    //     double nextDouble() {
+    //         return Double.parseDouble(next());
+    //     }
 
-        int[] readArray(int n) {
-            int[] a = new int[n];
-            for (int i = 0; i < n; i++) a[i] = nextInt();
-            return a;
-        }
+    //     int[] readArray(int n) {
+    //         int[] a = new int[n];
+    //         for (int i = 0; i < n; i++) a[i] = nextInt();
+    //         return a;
+    //     }
 
-        long[] readLongArray(int n) {
-            long[] a = new long[n];
-            for (int i = 0; i < n; i++) a[i] = nextLong();
-            return a;
-        }
+    //     long[] readLongArray(int n) {
+    //         long[] a = new long[n];
+    //         for (int i = 0; i < n; i++) a[i] = nextLong();
+    //         return a;
+    //     }
 
-        double[] readArrayDouble(int n) {
-            double[] a = new double[n];
-            for (int i = 0; i < n; i++) a[i] = nextInt();
-            return a;
-        }
+    //     double[] readArrayDouble(int n) {
+    //         double[] a = new double[n];
+    //         for (int i = 0; i < n; i++) a[i] = nextInt();
+    //         return a;
+    //     }
 
-        String nextLine() {
-            String str = new String();
-            try {
-                str = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return str;
-        }
-    }
+    //     String nextLine() {
+    //         String str = new String();
+    //         try {
+    //             str = br.readLine();
+    //         } catch (IOException e) {
+    //             e.printStackTrace();
+    //         }
+    //         return str;
+    //     }
+    // }
 }

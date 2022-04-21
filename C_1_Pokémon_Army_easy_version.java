@@ -1,7 +1,7 @@
 /*
     Rating: 1461
     Date: 18-04-2022
-    Time: 17-56-46
+    Time: 20-37-08
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,31 +14,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class C_1_Pokémon_Army_easy_version {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
-            }
+        int n = sc.nextInt(), q = sc.nextInt();
+        long[] arr = sc.readLongArray(n);
+        long[] d2 = new long[n+1];
+        long[] d1 = new long[n+1];
+        d1[0] = (long)-1e18;;
+        d2[0] = 0;
+        for(int i=0; i<n; i++) {
+            d1[i+1] = Math.max(d1[i], d2[i] + arr[i]);
+            d2[i+1] = Math.max(d2[i], d1[i] - arr[i]);
         }
-        p.writeln(maxans);
+        p.writeln(Math.max(d1[n], d2[n]));
     }
     public static void main(String[] args) {
-        int t = 1;
-        // t = sc.nextInt();
+        long t = 1;
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -184,6 +180,10 @@ public class A_Flipping_Game {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -191,11 +191,6 @@ public class A_Flipping_Game {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

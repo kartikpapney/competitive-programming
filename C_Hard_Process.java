@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 12-04-2022
+    Time: 12-32-20
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,35 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class C_Hard_Process {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        int n = sc.nextInt();
+        int n = sc.nextInt(), k = sc.nextInt();
         int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        int zero = 0;
+        int[] result = new int[]{1, 0};
+        int left = 0, right = 0;
+        while(right < arr.length) {
+            zero += arr[right]==0?1:0;
+            while(zero > k) {
+                zero -= arr[left]==0?1:0;
+                left++;
             }
+            if(right - left + 1 > result[1] - result[0] + 1) {
+                result[0] = left;
+                result[1] = right;
+            }
+            right++;
         }
-        p.writeln(maxans);
+        p.writeln(result[1] - result[0] + 1);
+        for(int i=0; i<arr.length; i++) {
+            if(i>=result[0] && i <= result[1]) p.writes(1);
+            else p.writes(arr[i]);
+        }
+        p.writeln();
     }
     public static void main(String[] args) {
         int t = 1;

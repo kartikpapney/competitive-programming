@@ -1,7 +1,7 @@
 /*
     Rating: 1461
     Date: 18-04-2022
-    Time: 17-56-46
+    Time: 12-14-52
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,31 +14,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class A_Flowers {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
-            }
+        int t = sc.nextInt();
+        int k = sc.nextInt();
+        long[] dp = new long[100001];
+        dp[0] = 1;
+        dp[1] = k == 1?2:1;
+        for(int i=2; i<dp.length; i++) {
+            if(i < k) dp[i] = dp[i-1];
+            else dp[i] = Functions.mod_add(dp[i-k], dp[i-1]);
         }
-        p.writeln(maxans);
+        for(int i=1; i<dp.length; i++) dp[i] = Functions.mod_add(dp[i-1], dp[i]);
+        while(t-- != 0) {
+            int a = sc.nextInt(), b = sc.nextInt();
+            p.writeln(((dp[b] - dp[a-1])%MOD + MOD)%MOD );
+        }
+        
+        
     }
     public static void main(String[] args) {
         int t = 1;
         // t = sc.nextInt();
+        // k = sc.nextLong();
         while (t-- != 0) {
             s();
         }

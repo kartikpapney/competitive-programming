@@ -1,11 +1,14 @@
 /*
-    Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Rating: 1378
+    Date: 19-04-2022
+    Time: 20-15-03
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
     Codechef: https://www.codechef.com/users/kartikpapney
+
+----------------------------Jai Shree Ram----------------------------
+
 */
 
 import java.util.*;
@@ -14,31 +17,45 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
-    public static boolean debug = false;
-    static void debug(String st) {
-        if(debug) p.writeln(st);
-    }
+public class A_Direction_Change {
     public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        long n = sc.nextLong(), m = sc.nextLong();
+        if(n == 1 || m == 1) {
+            if(n == 1 && m == 1) {
+                p.writeln(0);
+            } else if(n == 1) {
+                if(m == 2) {
+                    p.writeln(1);
+                } else {
+                    p.writeln(-1);
+                }
+            } else if(m == 1) {
+                if(n == 2) {
+                    p.writeln(1);
+                } else {
+                    p.writeln(-1);
+                }
             }
+        } else if(n == m) {
+            p.writeln(n-1 + m - 1);
+        } else {
+            if(n > m) {
+                long copy = n;
+                n = m;
+                m = copy;
+            }
+            long opn = 2*(n-1);
+            m -= n;
+            opn += 4*(m/2);
+            if(m%2 == 1) {
+                opn += 1;
+            }
+            p.writeln(opn);
         }
-        p.writeln(maxans);
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -46,6 +63,10 @@ public class A_Flipping_Game {
     }
 
 
+    public static boolean debug = false;
+    static void debug(String st) {
+        if(debug) p.writeln(st);
+    }
     static final Integer MOD = (int) 1e9 + 7;
     static final FastReader sc = new FastReader();
     static final Print p = new Print();
@@ -184,6 +205,10 @@ public class A_Flipping_Game {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -191,11 +216,6 @@ public class A_Flipping_Game {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

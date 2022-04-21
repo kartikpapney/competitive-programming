@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 14-04-2022
+    Time: 12-15-55
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,31 +14,40 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class C_Moamen_and_XOR {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        long n = sc.nextLong(), k = sc.nextLong();
+        long[] dp = new long[(int)k+1];
+        dp[0] = 1;
+        if((n&1) == 0) {
+            // n == even
+            long two = 1;
+            long c3 =  (long)Functions.pow(2, n-1) - 1;
+            long twopn = (long)Functions.pow(2, n);
+            for(int i=1; i<dp.length; i++) {
+                long case1 = two;
+                long case3 = (c3* dp[i-1])%MOD;
+                dp[i] = (case1+ case3)%MOD;
+                two = (two * twopn)%MOD;
+            }
+        } else {
+            // n == odd
+            long c3 = (long)Functions.pow(2, n-1);
+            for(int i=1; i<dp.length; i++) {
+                long case2 = dp[(int)i-1];
+                long case3 = (c3 * dp[i-1])%MOD;
+                dp[i] = (case2 + case3)%MOD;
             }
         }
-        p.writeln(maxans);
+        p.writeln(dp[(int)k]);
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -184,6 +193,10 @@ public class A_Flipping_Game {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -191,11 +204,6 @@ public class A_Flipping_Game {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

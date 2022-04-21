@@ -1,11 +1,14 @@
 /*
-    Rating: 1461
-    Date: 08-04-2022
-    Time: 18-39-57
+    Rating: 1378
+    Date: 19-04-2022
+    Time: 20-02-38
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
     Codechef: https://www.codechef.com/users/kartikpapney
+
+----------------------------Jai Shree Ram----------------------------
+
 */
 
 import java.util.*;
@@ -15,37 +18,12 @@ import java.io.InputStreamReader;
 
 
 public class Main {
-    public static boolean debug = false;
-    static void debug(String st) {
-        if(debug) p.writeln(st);
-    }
     public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        HashSet<Integer> set = new HashSet<>();
-        int curr = n;
-        int[] res = new int[n];
-        Arrays.fill(res, -1);
-        for(int i=0; i<n; i++) {
-            if(!set.contains(arr[i])) {
-                res[i] = arr[i];
-                set.add(arr[i]);
-            }
-        }
-        p.writeln(set.size());
-        for(int i=0; i<res.length; i++) {
-            if(res[i] == -1) {
-                while(set.contains(curr)) curr--;
-                res[i] = curr;
-                set.add(curr);
-            }
-        }
-        p.writes(res);
-        p.writeln();
+        
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -53,6 +31,10 @@ public class Main {
     }
 
 
+    public static boolean debug = false;
+    static void debug(String st) {
+        if(debug) p.writeln(st);
+    }
     static final Integer MOD = (int) 1e9 + 7;
     static final FastReader sc = new FastReader();
     static final Print p = new Print();
@@ -191,10 +173,6 @@ public class Main {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -202,6 +180,11 @@ public class Main {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

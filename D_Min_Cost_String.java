@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 12-04-2022
+    Time: 11-18-37
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -9,32 +9,46 @@
 */
 
 import java.util.*;
+
+import javax.print.attribute.standard.RequestingUserName;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class D_Min_Cost_String {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        int k = sc.nextInt();
+        int[][] arr = new int[k][k];
+        if(n == 1) {
+            p.writeln("a");
+        } else {
+            String res = "aa";
+            arr[0][0] = 1;
+            for(int i=0; i<n-2; i++) {
+                int pchar = res.charAt(res.length()-1);
+                int index = pchar-'a';
+                int min = arr[index][0];
+                int minj = 0;
+                for(int j=1; j<k; j++) {
+                    if(arr[index][j] < min) {
+                        min = arr[index][j];
+                        minj = j;
+                    } else if(arr[index][j] == min) {
+                        
+                    }
+                }
+                res += (char)('a' + minj);
+                arr[index][minj]++;
             }
+            p.writeln(res);
         }
-        p.writeln(maxans);
     }
     public static void main(String[] args) {
         int t = 1;

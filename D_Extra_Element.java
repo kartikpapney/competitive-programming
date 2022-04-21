@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 12-04-2022
+    Time: 20-55-02
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,63 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class D_Extra_Element {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+    public static boolean isAP(int[] arr, int i) {
+        ArrayList<Integer> nrr = new ArrayList<>();
+        for(int j=0; j<arr.length; j++) {
+            if(i != j) nrr.add(arr[j]);
+        }
+        if(nrr.size() < 2) return true;
+        int val = nrr.get(1) - nrr.get(0);
+        for(int j=1; j<nrr.size(); j++) {
+            if(nrr.get(j) - nrr.get(j-1) != val) return false;
+        }
+        return true;
+    }
+    public static boolean check(int[] arr, int rem, HashMap<Integer, Integer> map) {
+        if(isAP(arr, 0)) {
+            p.writeln(map.get(arr[0]));
+            return true;
+        }
+        for(int i=1; i<arr.length; i++) {
+            if(arr[i] - arr[i-1] == rem) {
+                if(isAP(arr, i)) {
+                    p.writeln(map.get(arr[i]));
+                    return true;
+                } else return false;
             }
         }
-        p.writeln(maxans);
+        return false;
+    }   
+    public static void s() {
+        Set<Integer> set = new HashSet<>();
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<arr.length; i++) {
+            map.put(arr[i], i+1);
+        }
+        // System.out.println(map);
+        Functions.sort(arr);
+        for(int i=1; i<arr.length; i++) {
+            set.add(arr[i] - arr[i-1]);
+        }
+        if(set.size() > 5) {
+            p.writeln(-1);    
+        }if(set.size() == 1) {
+            p.writeln(map.get(arr[0]));
+        } else {
+            for(int val : set) {
+                if(check(arr, val, map)) {
+                    return;
+                }
+            }
+            p.writeln(-1);
+        }
     }
     public static void main(String[] args) {
         int t = 1;

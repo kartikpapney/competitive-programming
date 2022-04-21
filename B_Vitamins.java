@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 24-02-2022
-    Time: 17-36-49
+    Date: 18-04-2022
+    Time: 18-08-31
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -19,23 +19,23 @@ public class B_Vitamins {
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    static class Pair {
-        int n;
-        String s;
-        public Pair(int n, String s) {
-            this.n = n;
-            this.s = s;
-        }
-    }
     public static void s() {
         int n = sc.nextInt();
-        Pair[] arr = new Pair[n];
-        for(int i=0; i<arr.length; i++) {
-            String[] inp = sc.nextLine().split(" ");
-            arr[i].n = Integer.parseInt(inp[0]);
-            arr[i].s = inp[1];
+        int[] ans = new int[8];
+        Arrays.fill(ans, 10000000);
+        ans[0] = 0;
+        for(int i=0; i<n; i++) {
+            int cost = sc.nextInt();
+            String s = sc.next();
+            int element = 0;
+            for(int j=0; j<s.length(); j++) {
+                element|=(1<<(s.charAt(j)-'A'));
+            }
+            for(int j=0; j<8; j++) ans[j|element] = Math.min(ans[j|element], ans[j] + cost);
+            // p.writeln(cost + " " + s);
         }
-        
+        if(ans[7] == 10000000) p.writeln(-1);
+        else p.writeln(ans[7]);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -53,51 +53,51 @@ public class B_Vitamins {
 
     static class Functions {
 
-        static void sort(int[] a) {
+        static void sort(int... a) {
             ArrayList<Integer> l = new ArrayList<>();
             for (int i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static void sort(long[] a) {
+        static void sort(long... a) {
             ArrayList<Long> l = new ArrayList<>();
             for (long i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static int max(int[] a) {
+        static int max(int... a) {
             int max = Integer.MIN_VALUE;
             for (int val : a) max = Math.max(val, max);
             return max;
         }
 
-        static int min(int[] a) {
+        static int min(int... a) {
             int min = Integer.MAX_VALUE;
             for (int val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long min(long[] a) {
+        static long min(long... a) {
             long min = Long.MAX_VALUE;
             for (long val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long max(long[] a) {
+        static long max(long... a) {
             long max = Long.MIN_VALUE;
             for (long val : a) max = Math.max(val, max);
             return max;
         }
 
-        static long sum(long[] a) {
+        static long sum(long... a) {
             long sum = 0;
             for (long val : a) sum += val;
             return sum;
         }
 
-        static int sum(int[] a) {
+        static int sum(int... a) {
             int sum = 0;
             for (int val : a) sum += val;
             return sum;
@@ -199,21 +199,21 @@ public class B_Vitamins {
             strb.append(c);
         }
 
-        public void writes(int[] arr) {
+        public void writes(int... arr) {
             for (int val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writes(long[] arr) {
+        public void writes(long... arr) {
             for (long val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writeln(int[] arr) {
+        public void writeln(int... arr) {
             for (int val : arr) {
                 writeln(val);
             }

@@ -1,7 +1,7 @@
 /*
     Rating: 1461
     Date: 18-04-2022
-    Time: 17-56-46
+    Time: 15-44-32
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,53 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class D_Longest_Regular_Bracket_Sequence {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+    public static int[] find(String s, char c1) {
+        int opb = 0;
+        int clb = 0;
+        int lseq = 0;
+        int maxcnt = 0;
+        for(char c : s.toCharArray()) {
+            if(c == c1) {
+                opb++;
+            } else {
+                clb++;
+                if(clb > opb) {
+                    clb = 0;
+                    opb = 0;
+                }
+                if(opb == clb) {
+                    if(opb + clb > lseq) {
+                        lseq = opb + clb;
+                        maxcnt = 1;
+                    } else if(opb + clb == lseq) {
+                        maxcnt++;
+                    }
+                }
             }
         }
-        p.writeln(maxans);
+        return new int[]{lseq, maxcnt};
+    }
+    public static void s() {
+        String s = sc.nextLine();
+        int[] a1 = find(s, '(');
+        int[] a2 = find((new StringBuilder(s)).reverse().toString(), ')');
+        if(a2[0] > a1[0]) {
+            int[] cpy = a2;
+            a2 = a1;
+            a1 = cpy;
+        }
+        int lseq = a1[0];
+        int maxcnt = a1[1];
+        if(lseq == 0) {
+            p.writeln(0 + " " + 1);
+        } else {
+            p.writeln(lseq + " " + maxcnt);
+        }
     }
     public static void main(String[] args) {
         int t = 1;

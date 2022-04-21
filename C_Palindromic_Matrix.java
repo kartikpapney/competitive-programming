@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 12-04-2022
+    Time: 16-50-47
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,126 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class C_Palindromic_Matrix {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        int[][] result = new int[n][n];
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int i=0; i<n*n; i++) {
+            int val = sc.nextInt();
+            pq.add(val);
+        }
+        if(n%2 == 0) {
+            for(int i=0; i<n/2; i++) {
+                for(int j=0; j<n/2; j++) {
+                    int a = pq.poll();
+                    int b = pq.poll();
+                    int c = pq.poll();
+                    int d = pq.poll();
+                    if(!(a == b && c == d && b == c)) {
+                        p.writeln("NO");
+                        return;
+                    } else {
+                        result[i][j] = a;
+                        result[n-i-1][j] = a;
+                        result[i][n-j-1] = a;
+                        result[n-i-1][n-j-1] = a;
+                    }
+                }
+            }
+        } else {
+            int count = 0;
+            PriorityQueue<Integer> npq = new PriorityQueue<>();
+            for(int i=0; i<n/2; i++) {
+                for(int j=0; j<n/2; j++) {
+                    if(pq.size() < 4) break;
+                    int a = pq.poll();
+                    int b = pq.poll();
+                    int c = pq.poll();
+                    int d = pq.poll();
+                    if(!(a == b && c == d && b == c)) {
+                        npq.add(a);
+                        pq.add(b);
+                        pq.add(c);
+                        pq.add(d);
+                        j--;
+                        continue;
+                    } else {
+                        result[i][j] = a;
+                        result[n-i-1][j] = a;
+                        result[i][n-j-1] = a;
+                        result[n-i-1][n-j-1] = a;
+                        count+=4;
+                    }
+                }
+            }
+
+
+            pq.addAll(npq);
+            // System.out.println(pq);
+            npq.clear();                
+            boolean filled = false;
+            for(int i=0; i<n/2; i++) {
+                // if(pq.size() < 2) break;
+                int a = pq.poll();
+                int b = pq.poll();
+                if(a == b) {
+                    result[i][n/2] = a;
+                    result[n-i-1][n/2] = a;
+                    count+=2;
+                } else {
+                    if(filled) {
+                        p.writeln("NO");
+                        return;
+                    }
+                    filled = true;
+                    result[n/2][n/2] = a;
+                    count++;
+                    pq.add(b);
+                    i--;
+                }
+            }
+            for(int j=0; j<n/2; j++) {
+                // if(pq.size() < 2) break;
+                int a = pq.poll();
+                int b = pq.poll();
+                if(a == b) {
+                    result[n/2][j] = a;
+                    result[n/2][n - j - 1] = a;
+                    count+=2;
+                } else {
+                    if(filled) {
+                        p.writeln("NO");
+                        return;
+                    }
+                    filled = true;
+                    result[n/2][n/2] = a;
+                    count++;
+                    pq.add(b);
+                    j--;
+                }
+
+            }
+            if(!filled) {
+                result[n/2][n/2] = pq.poll();
+                count++;
+            }
+            if(count != n*n) {
+                p.writeln("NO");
+                return;
             }
         }
-        p.writeln(maxans);
+        p.writeln("YES");
+        for(int i=0; i<result.length; i++) {
+            for(int j=0; j<result[0].length; j++) {
+                p.writes(result[i][j]);
+            }
+            p.writeln();
+        }
     }
     public static void main(String[] args) {
         int t = 1;

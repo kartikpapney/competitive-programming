@@ -1,11 +1,14 @@
 /*
-    Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Rating: 1378
+    Date: 21-04-2022
+    Time: 10-10-01
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
     Codechef: https://www.codechef.com/users/kartikpapney
+
+----------------------------Jai Shree Ram----------------------------
+
 */
 
 import java.util.*;
@@ -14,27 +17,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
-    public static boolean debug = false;
-    static void debug(String st) {
-        if(debug) p.writeln(st);
-    }
+public class D_Dirty_Deeds_Done_Dirt_Cheap {
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        ArrayList<int[]> ailessbi = new ArrayList<>(), aigreaterbi = new ArrayList<>();
+
+        for(int i=0; i<n; i++) {
+            int ai = sc.nextInt();
+            int bi = sc.nextInt();
+            if(ai < bi) {
+                ailessbi.add(new int[]{ai, bi, i+1});
+            } else {
+                aigreaterbi.add(new int[]{ai, bi, i+1});
             }
         }
-        p.writeln(maxans);
+        if(aigreaterbi.size() > ailessbi.size()) {
+            p.writeln(aigreaterbi.size());
+            aigreaterbi.sort((a, b) -> a[0] - b[0]);
+            for(int[] v : aigreaterbi) {
+                p.writes(v[2]);
+            }
+        } else {
+            p.writeln(ailessbi.size());
+            ailessbi.sort((a, b) -> b[0] - a[0]);
+            for(int[] v : ailessbi) {
+                p.writes(v[2]);
+            }
+        }
     }
     public static void main(String[] args) {
         int t = 1;
@@ -46,6 +55,10 @@ public class A_Flipping_Game {
     }
 
 
+    public static boolean debug = false;
+    static void debug(String st) {
+        if(debug) p.writeln(st);
+    }
     static final Integer MOD = (int) 1e9 + 7;
     static final FastReader sc = new FastReader();
     static final Print p = new Print();

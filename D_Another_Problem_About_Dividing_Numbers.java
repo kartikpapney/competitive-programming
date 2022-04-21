@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 13-04-2022
+    Time: 10-22-35
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,31 +14,51 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class D_Another_Problem_About_Dividing_Numbers {
+    static HashMap<Long, Long> map = new HashMap();
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    public static void s() {
-        int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+    public static long factor(long a) {
+        // if(map.containsKey(a)) return map.get(a);
+        long count = 0;
+        for(long i=2; i*i <= a; i++) {
+            while(a%i == 0) {
+                count++;
+                a/=i;
             }
         }
-        p.writeln(maxans);
+        if(a > 1) return count++;
+        // map.put(a, count);
+        return count;
+    }
+    public static void s() {
+        long a = sc.nextLong(), b = sc.nextLong(), k = sc.nextLong();
+        long maxopn = factor(a) + factor(b);
+        long minopn = Integer.MAX_VALUE;
+        if(a == b) {
+            if(k == 0) {
+                p.writeln("YES");
+            } else if(k >= 2 && k <= maxopn){
+                p.writeln("YES");
+            } else {
+                p.writeln("NO");
+            }
+            return;
+        }
+        else if(a%b == 0 || b %a == 0) minopn = 1;
+        else minopn = 2;
+        if(k >= minopn && k <= maxopn) {
+            p.writeln("YES");
+        } else {
+            p.writeln("NO");
+        }
     }
     public static void main(String[] args) {
+        map = new HashMap();
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -185,7 +205,7 @@ public class A_Flipping_Game {
         }
 
         public void yes() {
-            char c = '\n';
+            // char c = '\n';
             writeln("YES");
         }
 

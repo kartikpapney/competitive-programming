@@ -1,7 +1,7 @@
 /*
     Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Date: 13-04-2022
+    Time: 19-54-57
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -14,27 +14,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
+public class C_Not_Equal_on_a_Segment {
     public static boolean debug = false;
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        int n = sc.nextInt();
+        int n = sc.nextInt(), m = sc.nextInt();
         int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
         for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+            int val = arr[i];
+            map.putIfAbsent(val, new ArrayList<>());
+            map.get(val).add(i);
+        }
+        for(int i=0; i<m; i++) {
+            int li = sc.nextInt(), ri = sc.nextInt(), xi = sc.nextInt();
+            ArrayList<Integer> indexes = map.get(xi, new ArrayList<>());
+            if(indexes.isEmpty()) {
+                
             }
         }
-        p.writeln(maxans);
+
     }
     public static void main(String[] args) {
         int t = 1;

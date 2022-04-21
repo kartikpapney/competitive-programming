@@ -1,11 +1,14 @@
 /*
-    Rating: 1461
-    Date: 18-04-2022
-    Time: 17-56-46
+    Rating: 1378
+    Date: 19-04-2022
+    Time: 20-27-11
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
     Codechef: https://www.codechef.com/users/kartikpapney
+
+----------------------------Jai Shree Ram----------------------------
+
 */
 
 import java.util.*;
@@ -14,27 +17,35 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class A_Flipping_Game {
-    public static boolean debug = false;
-    static void debug(String st) {
-        if(debug) p.writeln(st);
-    }
+public class C_Make_it_Increasing {
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] dp = new int[n];
-        for(int i=0; i<arr.length; i++) dp[i] = arr[i];
-        for(int i=1; i<dp.length; i++) dp[i] += dp[i-1];
-        int sum = dp[n-1];
-        int maxans = 0;
-        for(int i=0; i<arr.length; i++) {
-            for(int j=i; j<arr.length; j++) {
-                int original = (i==0?dp[j]:dp[j]-dp[i-1]);
-                int fliped = j-i+1-original;
-                maxans = Math.max(maxans, sum-original+fliped);
+        long[] b = sc.readLongArray(n);
+        long minopn = Long.MAX_VALUE;
+        for(int i=0; i<b.length; i++) {
+
+            long[] a = new long[n];
+            long opn = 0;
+            // int[] opnc = new int[n];
+            for(int j=i-1; j>=0; j--) {
+                long tomake = Math.abs(a[j+1] - 1);
+                long copn = (long)Math.ceil(((double)tomake)/b[j]);
+                opn += copn;
+                a[j] = -copn*b[j];
+                // opnc[j] = copn;
             }
+            for(int j=i+1; j<a.length; j++) {
+                long tomake = a[j-1] + 1;
+                long copn = (long)Math.ceil(((double)tomake)/b[j]);
+                opn += copn;
+                a[j] = copn*b[j];
+                // opnc[j] = copn;
+            }
+            minopn = Math.min(minopn, opn);
+            // p.writes(a);
+            // p.writeln();
         }
-        p.writeln(maxans);
+        p.writeln(minopn);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -46,6 +57,10 @@ public class A_Flipping_Game {
     }
 
 
+    public static boolean debug = false;
+    static void debug(String st) {
+        if(debug) p.writeln(st);
+    }
     static final Integer MOD = (int) 1e9 + 7;
     static final FastReader sc = new FastReader();
     static final Print p = new Print();

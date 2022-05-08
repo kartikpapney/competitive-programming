@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 02-05-2022
+    Time: 21-19-43
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,32 +17,62 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class E_Breaking_the_Wall {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        // case 1;
+        long ans = 0;
+        for(int val : arr) {
+            pq.add((val + 1)/2);
+            if(pq.size() > 2) pq.remove();
+        }
+        ans = pq.poll() + pq.poll();
+        // case 2;
+        for(int i=1; i<arr.length-1; i++) {
+            ans = Math.min(Math.max(arr[i-1], arr[i+1]), ans);
+        }
+        for(int i=0; i<arr.length-1; i++) {
+            int a = arr[i];
+            int b = arr[i+1];
+            int opn = Math.min(a, b)/3;
+            a-=opn*3;
+            b-=opn*3;
+            if(a > b) {
+                int c = a;
+                a = b;
+                b = c;
             }
+            opn*=2;
+            if(a == 0 && b == 0) {
+
+            } else if(a == 0 && b == 1) {
+                opn++;
+            } else if(a == 1 && b == 1) {
+                a = 0;
+                b = 0;
+                opn++;
+            } else if(a == 0 && b == 2) {
+                opn++;
+            }else if(a==1 && b == 2) {
+                a = 0;
+                b = 0;
+                opn++;
+            } else if(a == 2 && b == 2) {
+                a = 0;
+                b = 0;
+                opn+=2;
+            } else {
+                opn += (b+1)/2;
+            }
+            ans = Math.min(ans, opn);
         }
         p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -192,10 +222,6 @@ public class C_Mikasa {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -203,6 +229,11 @@ public class C_Mikasa {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

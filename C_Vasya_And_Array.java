@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 23-04-2022
+    Time: 15-22-59
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,32 +17,57 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class C_Vasya_And_Array {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
+        int n = sc.nextInt(), k = sc.nextInt();
+        int[] arr = new int[n];
+        ArrayList<int[]> condition = new ArrayList<>();
+        for(int i=0; i<k; i++) condition.add(new int[]{sc.nextInt(), sc.nextInt(), sc.nextInt()});
+        condition.sort((b, a) -> {
+            if(a[2] == b[2]) return a[1] - b[1];
+            return a[2] - b[2];
+        });
+        // for(int[] val : condition) {
+        //     p.writeln(val[0] + " " + val[1] + " " + val[2]);
+        // }
+        // for(int[] val : condition) {
+        //     if(val[0] == 0) continue;
+        //     int l = val[1]-1;
+        //     int r = val[2]-1;
+        //     for(int i=l+1; i<=r; i++) {
+        //         arr[i] = 1;
+        //     }
+        // }
+        for(int[] val : condition) {
+            if(val[0] == 1) continue;
+            int l = val[1]-1;
+            int r = val[2]-1;
+            boolean check = false;
+            for(int i=r; i>l; i--) {
+                if(arr[i-1] > arr[i]) {
+                    check = true;
+                    break;
+                } else if(arr[i-1] != 1 || arr[i] != 1) {
+                    arr[i-1] = arr[i] + 1;
                 }
             }
+            if(check) {
+                continue;
+            } else {
+                p.writeln("NO");
+                p.writeln();
+                return;
+            }
         }
-        p.writeln(ans);
+        p.writeln("YES");
+        for(int i=0; i<arr.length; i++) arr[i]++;
+        p.writes(arr);
+        p.writeln();
+        
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -192,10 +217,6 @@ public class C_Mikasa {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -203,6 +224,11 @@ public class C_Mikasa {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

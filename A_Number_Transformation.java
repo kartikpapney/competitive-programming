@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 02-05-2022
+    Time: 20-07-17
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class A_Number_Transformation {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
-            }
+        long x = sc.nextLong(), y = sc.nextLong();
+        if(y%x != 0) {
+            p.writeln(0 + " " + 0);
+        } else {
+            p.writeln(1 + " " + y/x);
         }
-        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;

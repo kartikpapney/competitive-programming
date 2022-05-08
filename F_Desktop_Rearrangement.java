@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 03-05-2022
+    Time: 08-41-55
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,32 +17,52 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class F_Desktop_Rearrangement {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
+        int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
+        boolean[][] arr = new boolean[n][m];
+        for(int i=0; i<n; i++) {
+            String s = sc.nextLine();
+            for(int j=0; j<m; j++) {
+                arr[i][j] = s.charAt(j)=='*';
+            }
+        }
+        int ans = 0;
+        HashSet<Integer> set = new HashSet<>(); 
+        for(int j=0; j<m; j++) {
+            for(int i=0; i<n; i++) {
+                if(arr[i][j]) {
+                    set.add(n*j + i);
                 }
             }
         }
-        p.writeln(ans);
+        int total = set.size();
+        for(int i=0; i<total; i++) if(!set.contains(i)) ans++;
+        for(int i=0; i<k; i++) {
+            for(int val : set) p.writes(val);
+            p.writeln();
+            int x = sc.nextInt()-1, y = sc.nextInt()-1;
+            int idx = y*n + x;
+            // add  -> outside(+1) -> fill(-1);
+            // remove -> outside(-1) -> fill(+1);
+            if(set.contains(idx)) {
+                // remove
+                if(idx >= total) ans--;
+                if(set.contains(total-1)) ans++;
+                total--;
+                set.remove(idx);
+            } else {
+                if(idx >= total)ans++;
+                if(set.contains(total)) ans--;
+                total++;
+                set.add(idx);
+            }
+            p.writeln(ans);
+        }
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -192,10 +212,6 @@ public class C_Mikasa {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -203,6 +219,11 @@ public class C_Mikasa {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

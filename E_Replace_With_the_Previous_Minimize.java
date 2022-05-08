@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 06-05-2022
+    Time: 11-35-20
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class E_Replace_With_the_Previous_Minimize {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
+        int n = sc.nextInt(), k=sc.nextInt();
+        StringBuilder strb = new StringBuilder(sc.nextLine());
+        HashSet<Character> covered = new HashSet<>();
+        for(int i=0; i<strb.length(); i++) {
+            while(strb.charAt(i) != 'a') {
+                char c = strb.charAt(i);
+                if(covered.contains(c)) {
+                    strb.setCharAt(i, (char)(c - 1));
+                    continue;
                 }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
+                if(k == 0) break;
+                for(int j=i; j<strb.length(); j++) {
+                    if(strb.charAt(j) == c) strb.setCharAt(j, (char)(c - 1));
                 }
+                covered.add(c);
+                k--;
             }
         }
-        p.writeln(ans);
+        p.writeln(strb.toString());
     }
     public static void main(String[] args) {
         int t = 1;

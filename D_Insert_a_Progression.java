@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 22-04-2022
+    Time: 21-11-42
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -10,34 +10,28 @@
 ----------------------------Jai Shree Ram----------------------------
 
 */
-
+import java.lang.Math.*;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class D_Insert_a_Progression {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
-            }
+        int n = sc.nextInt();
+        long x = sc.nextLong();
+        long[] arr = sc.readLongArray(n);
+        long min = Long.MAX_VALUE;
+        long max = Long.MIN_VALUE;
+        long ans = 0;
+        for(int i=0; i<n; i++) {
+            min = Math.min(arr[i], min);
+            max = Math.max(arr[i], max);
+            if(i > 0) ans += Math.abs(arr[i] - arr[i-1]);
         }
+        ans += Math.min(2*(min-1), Math.min(arr[0], arr[n-1]) - 1);
+        if(x > max) ans += Math.min(2*(x-max), x - Math.max(arr[0], arr[n-1]));
         p.writeln(ans);
     }
     public static void main(String[] args) {

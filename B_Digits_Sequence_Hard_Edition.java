@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 23-04-2022
+    Time: 14-24-45
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,32 +17,30 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class B_Digits_Sequence_Hard_Edition {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
+        long k = sc.nextLong();
+        long end = 9;
+
+        for(int i=1; ; i++) {
+            if(k <= i*end) {
+                long bracketpos = end/9 + (k-1)/i;
+                p.writeln(k + " " + bracketpos);
+                while(k%i != 0) {
+                    bracketpos/=10;
+                    ++k;
+                    p.writeln(k + " " + bracketpos);
                 }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
+                p.writeln(bracketpos%10);
+                return;
             }
-        }
-        p.writeln(ans);
+            k-=i*end;
+            end*=10;
+        }   
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -192,10 +190,6 @@ public class C_Mikasa {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -203,6 +197,11 @@ public class C_Mikasa {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

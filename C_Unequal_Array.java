@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 23-04-2022
+    Time: 19-55-11
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,41 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class C_Unequal_Array {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        int count = 0;
+        ArrayList<Integer> rr = new ArrayList<>();
+        ArrayList<Integer> cc = new ArrayList<>();
+        for(int i=0; i<n-1; i++) {
+            if(arr[i] == arr[i+1]) {
+                cc.add(i);
+                count++;
             } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
+                if(count != 0) rr.add(count);
+                count = 0;
             }
         }
-        p.writeln(ans);
+        // p.writes(rr);
+        // p.writeln();
+        if(count != 0) rr.add(count);
+        if(rr.size() == 0) {
+            p.writeln(0);
+            return;
+        } else if(rr.size() == 1) {
+            int val = rr.get(0);
+            if(val == 1) {
+                p.writeln(0);
+                return;
+            }
+            p.writeln(Math.max(1, val-2));
+        } else {
+            int gv = cc.get(0);
+            int tv = cc.get(cc.size()-1);
+            gv+=1;
+            p.writeln(tv-gv);
+        }
     }
     public static void main(String[] args) {
         int t = 1;

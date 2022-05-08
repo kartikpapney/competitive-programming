@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 23-04-2022
+    Time: 19-39-49
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,32 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class B_I_love_AAAB {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
+        String s = sc.nextLine();
+        Stack<Character> st = new Stack<>();
+        for(int i=0; i<s.length(); i++) {
+            char c = s.charAt(i);
+            if(i == s.length()-1) {
+                if(s.charAt(i) == 'A') {
+                    p.writeln("NO");
+                    return;
                 }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
+                if(st.isEmpty()) {
+                    p.writeln("NO");
+                    return;
                 }
             }
+            if(c == 'B') {
+                if(st.isEmpty()) {
+                    p.writeln("NO");
+                    return;
+                }
+                st.pop();
+            }
+            if(s.charAt(i) == 'A') st.add(c);
         }
-        p.writeln(ans);
+        p.writeln("YES");
     }
     public static void main(String[] args) {
         int t = 1;

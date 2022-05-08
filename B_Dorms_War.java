@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 06-05-2022
+    Time: 20-32-01
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,32 +17,31 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class B_Dorms_War {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
+        int n = Integer.parseInt(sc.nextLine());
+        String s = sc.nextLine();
+        String[] inp = sc.nextLine().split(" ");
+        // for(String v : inp) p.writes(v);
+        // p.writeln();
+        int m = Integer.parseInt(inp[0]);
+        HashSet<Character> set = new HashSet<>();
+        for(int i=1; i<=m; i++) {
+            set.add(inp[i].charAt(0));
+        }
+        int last = 0;
+        int ans = 0;
+        for(int i=0; i<s.length(); i++) {
+            if(set.contains(s.charAt(i))) {
+                ans = Math.max(ans, i-last);
+                last = i;
             }
         }
         p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        t = Integer.parseInt(sc.nextLine());
         while (t-- != 0) {
             s();
         }

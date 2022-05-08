@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 22-04-2022
+    Time: 20-24-48
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,27 +17,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class C_Dolce_Vita {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
-            }
+        int n = sc.nextInt();
+        long x = sc.nextLong();
+        long[] arr = sc.readLongArray(n);
+        long[] prr = new long[n];
+        Functions.sort(arr);
+        prr[0] = arr[0];
+        for(int i=1; i<arr.length; i++) {
+            prr[i] = arr[i] + prr[i-1];
         }
+        long ans = 0;
+        for(int i=0; i<arr.length; i++) {
+            ans += Math.max((x-prr[i]+i+1)/(long)((i+1)), 0l);
+            // p.writes((x-arr[i]-prev)/(i+1) + 1);
+        }
+        // p.writeln();
         p.writeln(ans);
     }
     public static void main(String[] args) {

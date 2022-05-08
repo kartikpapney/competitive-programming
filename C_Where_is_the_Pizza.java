@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 06-05-2022
+    Time: 20-42-04
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,52 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class C_Where_is_the_Pizza {
+    public static void connected(ArrayList<HashSet<Integer>> graph, int vtx, HashSet<Integer> crnt, boolean[] visited) {
+        if(visited[vtx]) return;
+        visited[vtx] = true;
+        crnt.add(vtx);
+        for(int val : graph.get(vtx)) {
+            connected(graph, val, crnt, visited);
+        }
+    }
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
+        int n = sc.nextInt();
+        int[] a = sc.readArray(n);
+        int[] b = sc.readArray(n);
+        int[] c = sc.readArray(n);
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        for(int i=0; i<=n; i++) graph.add(new ArrayList<>());
+        for(int i=0; i<n; i++) {
+            graph.get(a[i]).add(i);
+            graph.get(b[i]).add(i);
+        }
+        // System.out.println(graph);
+        ArrayList<HashSet<Integer>> g = new ArrayList<>();
+        for(int i=0; i<n; i++) g.add(new HashSet<>());
+        for(ArrayList<Integer> e : graph) {
+            if(e.isEmpty()) continue;
+            g.get(e.get(0)).add(e.get(1));
+            g.get(e.get(1)).add(e.get(0));
+        }
+        long ans = 1;
+        // System.out.println(g);
+        boolean[] visited = new boolean[n];
+        int participate = 0;
+        for(int i=0; i<n; i++) {
+            HashSet<Integer> crnt = new HashSet<>();
+            connected(g, i, crnt, visited);
+            if(crnt.isEmpty() || crnt.size() == 1) continue;
+            int cnb = 0;
+            for(int val : crnt) {
+                if(c[val] == 0) {
+                    cnb++;
                 }
             }
-        }
-        p.writeln(ans);
+            if(cnb == crnt.size()) participate++;
+        } 
+        p.writeln(Functions.pow(2, participate));
+        // System.out.println();
     }
     public static void main(String[] args) {
         int t = 1;

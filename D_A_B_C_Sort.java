@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 02-05-2022
+    Time: 20-34-35
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,47 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
-    public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
-            }
+public class D_A_B_C_Sort {
+    public static boolean isSorted(ArrayList<Integer> arr) {
+        for(int i=1; i<arr.size(); i++) {
+            if(arr.get(i) < arr.get(i-1)) return false;
         }
-        p.writeln(ans);
+        return true;
+    }
+    public static void s() {
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        int[] brr = new int[n];
+            int idx = 0;
+            for(int i=0; i<brr.length; i++) {
+                brr[i] = arr[i];
+            }
+            Functions.sort(brr);
+            Deque<Integer> st = new ArrayDeque<>();
+            for(int val : arr) st.addLast(val);
+            while(st.size() != 0) {
+                if(st.size() %2 == 1) {
+                    if(brr[idx] != st.peek()) {
+                        p.writeln("NO");
+                        return;
+                    }
+                    st.removeFirst();
+                } else {
+                    int a = st.removeFirst();
+                    int b = st.removeFirst();
+                    if(a == brr[idx]) {
+                        st.addFirst(b);
+                    } else  if(b == brr[idx]) {
+                        st.addFirst(a);
+                    } else {
+                        p.writeln("NO");
+                        return;
+                    }
+                }
+                idx++;
+            }   
+            p.writeln("YES");
+        
     }
     public static void main(String[] args) {
         int t = 1;

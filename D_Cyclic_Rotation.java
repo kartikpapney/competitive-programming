@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 24-04-2022
+    Time: 10-47-22
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,32 +17,35 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class D_Cyclic_Rotation {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
+        int n = sc.nextInt();
+        int[] a = sc.readArray(n);
+        int[] b = sc.readArray(n);
+        int i = a.length-1;
+        int j = b.length-1;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        while(j >= 0) {
+            if(j >= 1) {
+                int x = b[j];
+                int y = b[j-1];
+                if(x == y) {
+                    map.put(x, map.getOrDefault(x, 0) + 1);
+                    j--;
+                } else if(a[i] == b[j]) {
+                    i--;
+                    j--;
+                } else if(map.getOrDefault(a[i], 0) > 0) {
+                    map.put(a[i], map.get(a[i]) - 1);
+                    i--;
+                    j--;
                 }
             }
         }
-        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -192,10 +195,6 @@ public class C_Mikasa {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -203,6 +202,11 @@ public class C_Mikasa {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

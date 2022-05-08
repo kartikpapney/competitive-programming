@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 27-04-2022
+    Time: 18-03-49
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,70 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
-    public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
+public class C_Not_Assigning {
+    public static void find(ArrayList<ArrayList<Integer>> graph, int vtx, int val, HashMap<ArrayList<Integer>, Integer> map) {
+        for(int nbr : graph.get(vtx)) {
+            int vtxcpy = vtx;
+            int nbrcpy = nbr;
+            if(vtxcpy > nbrcpy) {
+                int copy = vtxcpy;
+                vtxcpy = nbrcpy;
+                nbrcpy = copy;
+            }
+            ArrayList<Integer> edge = new ArrayList<>();
+            edge.add(vtxcpy);
+            edge.add(nbrcpy);
+            if(!map.containsKey(edge)) {
+                map.put(edge, val);
+                find(graph, nbr, val==2?3:2, map);
             }
         }
-        p.writeln(ans);
+    }
+    public static void s() {
+        HashMap<ArrayList<Integer>, Integer> map = new HashMap<>();
+        int n = sc.nextInt();
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> values = new ArrayList<>();
+        for(int i=0; i<=n; i++) graph.add(new ArrayList<>());
+        for(int i=1; i<=n-1; i++) {
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            if(x > y) {
+                int copy = x;
+                x = y;
+                y = copy;
+            }
+            ArrayList<Integer> xrr = new ArrayList<>();
+            xrr.add(x);
+            xrr.add(y);
+            values.add(xrr);
+            graph.get(x).add(y);
+            graph.get(y).add(x);
+        }
+        int vtx = -1;
+        for(int i=1; i<=n; i++) {
+            if(graph.get(i).size() == 1) {
+                vtx = i;
+            }
+            if(graph.get(i).size() >= 3) {
+                p.writeln(-1);
+                return;
+            }
+        }
+        if(vtx == -1) {
+            p.writeln(-1);
+            return;
+        }
+        find(graph, vtx, 2, map);
+        // System.out.println(map);
+        if(map.size() != n-1) {
+            p.writeln(-1);
+            return;
+        }
+        for(ArrayList<Integer> a : values) {
+            p.writes(map.get(a));
+        }
+        p.writeln();
     }
     public static void main(String[] args) {
         int t = 1;

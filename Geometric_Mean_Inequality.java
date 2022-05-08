@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 28-04-2022
+    Time: 11-49-15
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class Geometric_Mean_Inequality {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        int one = Functions.count(arr, 1);
+        int mone = Functions.count(arr, -1);
+        int ans = Math.abs(one - mone);
+        if(ans < 2) p.writeln("Yes");
+        else if(ans == 2) {
+            if(one%2 == 0 && mone%2 == 0) {
+                p.writeln("Yes");
             } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
+                p.writeln("No");
             }
+        } else {
+            p.writeln("No");
         }
-        p.writeln(ans);
+
     }
     public static void main(String[] args) {
         int t = 1;

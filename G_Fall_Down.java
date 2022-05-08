@@ -1,7 +1,7 @@
 /*
     Rating: 1378
     Date: 21-04-2022
-    Time: 20-46-18
+    Time: 23-44-44
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -19,50 +19,12 @@ import java.io.InputStreamReader;
 
 public class G_Fall_Down {
     public static void s() {
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        char[][] arr = new char[n][m];
-        for(int i=0; i<n; i++) {
-            String s = sc.nextLine();
-            for(int j=0; j<m; j++) {
-                char c = s.charAt(j);
-                arr[i][j] = c;
-            }
-        }
-        char[][] ans = new char[n][m];
-        for(int j=0; j<m; j++) {
-            int idx = n-1;
-            Stack<Character> st = new Stack<>();
-            for(int i=n-1; i>=0; i--) {
-                if(arr[i][j] == '.') continue;
-                else if(arr[i][j] == 'o') {
-                    while(idx > i) {
-                        if(st.isEmpty()) ans[idx][j] = '.';
-                        else ans[idx][j] = st.pop();
-                        idx--;
-                    } 
-                    ans[i][j] = 'o';
-                    idx--;
-                }
-                else st.push(arr[i][j]);
-            }
-            while(idx != -1) {
-                if(st.isEmpty()) ans[idx][j] = '.';
-                else ans[idx][j] = st.pop();
-                idx--;
-            } 
-        }
-        for(int i=0; i<ans.length; i++) {
-            for(int j=0; j<ans[0].length; j++) {
-                p.write(ans[i][j]);
-            }
-            p.writeln();
-        }
-        p.writeln();
+        int[] arr = new int[]{1};
+        p.writeln(arr[2]);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -212,10 +174,6 @@ public class G_Fall_Down {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -223,6 +181,11 @@ public class G_Fall_Down {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 02-05-2022
+    Time: 20-16-02
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class C_Infinite_Replacement {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
-            }
+        String s = sc.nextLine();
+        String t = sc.nextLine();
+        boolean a = false, other = false;
+        for(char c : t.toCharArray()) {
+            if(c == 'a') a = true;
+            else other = true;
         }
-        p.writeln(ans);
+        if(a && other) {
+            p.writeln(-1);
+        } else if(a) {
+            if(t.length() == 1) p.writeln(1);
+            else p.writeln(-1);
+        } else {
+            long count = 1;
+            for(int i=1; i<=s.length(); i++) {
+                count = 2*count;
+            }
+            p.writeln(count);
+        }
     }
     public static void main(String[] args) {
         int t = 1;
@@ -54,7 +53,7 @@ public class C_Mikasa {
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    static final Integer MOD = (int) 1e9 + 7;
+    static final Integer MOD = (int) 1e17;
     static final FastReader sc = new FastReader();
     static final Print p = new Print();
 
@@ -146,7 +145,7 @@ public class C_Mikasa {
         public static long factorial(long n) {
             long res = 1;
             for (int i = 1; i <= n; i++) {
-                res = (i % MOD * res % MOD) % MOD;
+                res = i*res;
             }
             return res;
         }

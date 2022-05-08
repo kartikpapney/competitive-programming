@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 22-04-2022
+    Time: 15-25-50
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,27 +17,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class C_Line_Empire {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
+        int n = sc.nextInt();
+        long a = sc.nextLong(), b = sc.nextLong();
+        long[] arr = sc.readLongArray(n);
+        long capitalat = 0;
+        long ans = b*arr[0];
+        // p.writes(ans);
+        for(int i=1; i<n; i++) {
+            boolean check = (a <= (n-i)*b);
+            if(check) {
+                ans += a*(arr[i-1] - capitalat);
+                capitalat = arr[i-1];
             }
+            ans += b*(arr[i]-capitalat);
+            // p.writes(ans);
         }
+        // p.writeln();
         p.writeln(ans);
     }
     public static void main(String[] args) {

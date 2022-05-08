@@ -21,18 +21,28 @@ public class B_Bit_Flipping {
     }
     public static void s() {
         int n = sc.nextInt(), k = sc.nextInt();
-        String s = sc.nextLine();
         int[] opn = new int[n];
-        if(k%2 == 0) {
-            for(int i=0; i<s.length(); i++) {
-                if(s.charAt(i) == '0') {
-                    opn[i] = 1; 
-                    k--;
-                }
+        StringBuilder s = new StringBuilder(sc.nextLine());
+        if(k%2 != 0) {
+            for(int i=0; i<n; i++) {
+                s.setCharAt(i, (char)('1' - s.charAt(i)+'0'));
             }
-        } else {
-
         }
+        for(int i=0; i<s.length() && k != 0; i++) {
+            if(s.charAt(i) == '0') {
+                opn[i]++;
+                s.setCharAt(i, '1');
+                k--;
+            }
+        }
+        if(k%2 == 1) {
+            char c = s.charAt(s.length()-1);
+            s.setCharAt(s.length()-1, (char)('1' - c + '0'));
+        }
+        opn[n-1] += k;
+        p.writeln(s.toString());
+        p.writes(opn);
+        p.writeln();
     }
     public static void main(String[] args) {
         int t = 1;

@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 27-04-2022
+    Time: 18-13-17
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,42 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class C_Array_Destruction {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
+        int n = 2*sc.nextInt();
+        int[] arr = sc.readArray(n);
+        Functions.sort(arr);
+        for(int i=n-2; i>=0; i--) {
+            StringBuilder strb = new StringBuilder();
+            int element1 = arr[n-1];
+            int element2 = arr[i];
+            HashMap<Integer, Integer> map = new HashMap<>();
+            for(int val : arr) {
+                map.put(val, map.getOrDefault(val, 0) + 1);
+            }
+            int sum = element1 + element2;
+            for(int j=n-1; j>=0; j--) {
+                if(map.containsKey(arr[j])) {
+                    map.put(arr[j], map.get(arr[j]) - 1);
+                    if(map.get(arr[j]) == 0) map.remove(arr[j]);
+                    if(!map.containsKey(sum - arr[j])) {
+                        break;
+                    } else {
+                        map.put(sum - arr[j], map.get(sum - arr[j]) - 1);
+                        if(map.get(sum - arr[j]) == 0) map.remove(sum - arr[j]);
+                    }
+                    strb.append(arr[j] + " " + (sum - arr[j]) + "\n");
+                    sum = arr[j];
                 }
             }
+            if(map.size() == 0) {
+                p.writeln("YES");
+                p.writeln(element1 + element2);
+                p.write(strb.toString());
+                return;
+            }
         }
-        p.writeln(ans);
+        p.writeln("NO");
     }
     public static void main(String[] args) {
         int t = 1;

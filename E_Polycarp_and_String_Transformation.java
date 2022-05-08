@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 23-04-2022
+    Time: 10-54-53
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,49 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
+public class E_Polycarp_and_String_Transformation {
     public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
+        String s = sc.nextLine();
+        HashSet<Character> set = new HashSet<>();
+        StringBuilder strb = new StringBuilder();
+        for(int i=s.length()-1; i>=0; i--) {
+            char c = s.charAt(i);
+            if(!set.contains(c)) strb.append(c);
+            set.add(c);
+        }
+        strb.reverse();
+        int[] count = new int[26];
+        for(char c : s.toCharArray()) count[c-'a']++;
+        int len = 0;
+        for(int i=0; i<strb.length(); i++) {
+            if(count[strb.charAt(i) - 'a']%(i+1) == 0) {
+                len += count[strb.charAt(i) - 'a']/(i+1);
             } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
+                p.writeln(-1);
+                return;
             }
         }
-        p.writeln(ans);
+        String ans = s.substring(0, len);
+        StringBuilder substr = new StringBuilder(s.substring(0, len));
+        int idx = 0;
+        for(int i=0; i<strb.length(); i++) {
+            int clen = len;
+            // p.writeln(s.substring(idx, len) + " " + substr.toString());
+            if(idx+len <= s.length() && s.substring(idx, idx+len).equals(substr.toString())) {
+                char c = strb.charAt(i);
+                for(int j=substr.length()-1; j>=0; j--) {
+                    if(substr.charAt(j) == c) {
+                        substr.deleteCharAt(j);
+                        len--;
+                    }
+                }
+            } else {
+                p.writeln(-1);
+                return;
+            } 
+            idx += clen;
+        }
+        p.writeln(ans+ " " + strb.toString());
     }
     public static void main(String[] args) {
         int t = 1;

@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 22-04-2022
+    Time: 20-13-26
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,29 +17,39 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
-    public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
-            }
+public class B_Consecutive_Points_Segment {
+    public static boolean check(int[] arr) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=1; i<arr.length; i++) {
+            if(arr[i] == arr[i-1]+1) continue;
+            else if(arr[i] == arr[i-1] + 2) arr[i] = arr[i-1] + 1;
+            else if(arr[i] == arr[i-1]) arr[i] = arr[i-1] + 1;
+            else return false;
         }
-        p.writeln(ans);
+        for(int val : arr) set.add(val);
+        return true;
     }
+    public static void s() {
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        int[] brr = new int[n];
+        int[] crr = new int[n];
+        for(int i=0; i<arr.length; i++) {
+            brr[i] = crr[i] = arr[i];
+        }
+        int first = arr[0];
+        boolean a = check(arr);
+        brr[0] = first-1;
+        boolean b = check(brr);
+        crr[0] = first+1;
+        boolean c = check(crr);
+        if(a |b | c) {
+            p.writeln("YES");
+        } else {
+            p.writeln("NO");
+        }
+    }
+
     public static void main(String[] args) {
         int t = 1;
         t = sc.nextInt();

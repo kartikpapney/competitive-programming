@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 21-04-2022
-    Time: 13-58-16
+    Date: 06-05-2022
+    Time: 08-12-28
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,28 +17,46 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class C_Mikasa {
-    public static void s() {
-        long n = sc.nextLong(), m = sc.nextLong();
-        long ans = Long.MAX_VALUE;
-        long prev = 0l;
-        for(int i=31; i>=0; i--) {
-            long nbit = (1<<i)&n;
-            long mbit = (1<<i)&m;
-            if(nbit == 0) {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev|(1l<<i));
-                } else {
-                    prev|=(1l<<i);
-                }
-            } else {
-                if(mbit == 0) {
-                    ans = Math.min(ans, prev);
-                    prev|=(1l<<i);
-                }
-            }
+public class D_Vertical_Paths {
+    public static void find(ArrayList<ArrayList<Integer>> tree, int idx, StringBuilder cpath, ArrayList<String> ans) {
+        // System.out.println(cpath);
+        if(tree.get(idx).size() == 0) {
+            ans.add(cpath.toString());
+            return;
         }
-        p.writeln(ans);
+        cpath.append(" ");
+        cpath.append(tree.get(idx).get(0));
+        find(tree, tree.get(idx).get(0), cpath, ans);
+        for(int i=1; i<tree.get(idx).size(); i++) {
+            int child = tree.get(idx).get(i);
+            find(tree, child, new StringBuilder(child+""), ans);
+        }
+    }
+    public static void s() {
+        int n = sc.nextInt();
+        int[] arr =sc.readArray(n);
+        ArrayList<ArrayList<Integer>> tree = new ArrayList<>();
+        for(int i=0; i<=n; i++) tree.add(new ArrayList<>());
+        int root = -1;
+        for(int i=0; i<n; i++) {
+            if(arr[i] == i+1) {
+                root = i+1;
+                continue;
+            }
+            tree.get(arr[i]).add(i+1);
+        }
+        ArrayList<String> result = new ArrayList<>();
+        find(tree, root, new StringBuilder(root+""), result);
+        p.writeln(result.size());
+        for(String s : result) {
+            String[] re = s.split(" ");
+            p.writeln(re.length);
+            for(String c : re) p.writes(c);
+            p.writeln();
+        }
+        p.writeln();
+        // System.out.println(tree);
+
     }
     public static void main(String[] args) {
         int t = 1;

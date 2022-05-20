@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 18-05-2022
+    Time: 02-16-50
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,58 +12,33 @@
 */
 
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
+public class C_Xenia_and_Weights {
     public static void s() {
-        int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
-        }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
-                } else {
-                    p.writeln("NO");
-                    return;
-                }
-            } else {
-                i--;
+        ArrayList<Integer> arr = new ArrayList<>();
+        String s = sc.nextLine();
+        for(int i=0; i<s.length(); i++) {
+            if(s.charAt(i) == '1') {
+                arr.add(i+1);
             }
         }
-        p.writeln("YES");
+        int m = sc.nextInt();
+        boolean[][][] dp = new boolean[m+1][arr.length()][20];
+        for(int i=0; i<arr.size(); i++) {
+            if(i%2 == 0) {
+
+            } else {
+                
+            }
+        }
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

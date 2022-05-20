@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 18-05-2022
+    Time: 11-57-10
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,56 +12,101 @@
 */
 
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
-    public static void s() {
-        int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
-        }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
-                } else {
-                    p.writeln("NO");
-                    return;
-                }
+public class E_2_Close_Tuples_hard_version {
+    static long[] fac;
+    private static int bs(int[] arr, int val) {
+        int start = 0;
+        int end = arr.length-1;
+        int ans = -1;
+        while(start <= end) {
+            int mid = start + (end - start)/2;
+            if(arr[mid] <= val) {
+                ans = mid;
+                start = mid+1;
             } else {
-                i--;
+                end = mid-1;
             }
         }
-        p.writeln("YES");
+        return ans;
+    }
+    static long power(long x, long y, long p)
+    {
+ 
+        // Initialize result
+        long res = 1;
+ 
+        // Update x if it is more than or
+        // equal to p
+        x = x % p;
+ 
+        while (y > 0) {
+ 
+            // If y is odd, multiply x
+            // with result
+            if (y % 2 == 1)
+                res = (res * x) % p;
+ 
+            // y must be even now
+            y = y >> 1; // y = y/2
+            x = (x * x) % p;
+        }
+ 
+        return res;
+    }
+ 
+    // Returns n^(-1) mod p
+    static long modInverse(long n, long p)
+    {
+        return power(n, p - 2, p);
+    }
+ 
+    // Returns nCr % p using Fermat's
+    // little theorem.
+    static long nCrModPFermat(long n, long r,
+                             long p)
+    {
+ 
+          if (n<r)
+              return 0;
+      // Base case
+        if (r == 0)
+            return 1;
+
+        return (fac[(int)n] * modInverse(fac[(int)r], p)
+                % p * modInverse(fac[(int)(n - r)], p)
+                % p)
+            % p;
+    }
+
+    private static long ncr(long n, long r) {
+        return nCrModPFermat(n, r, MOD);
+    }
+    public static void s() {
+        int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
+        
+        int[] arr = sc.readArray(n);
+        Functions.sort(arr);
+        long ans = 0;
+        for(int i=0; i<arr.length; i++) {
+            int upper = bs(arr, arr[i]+k);
+            int diff = upper - i;
+            long val = ncr(diff, m-1);
+            if(val == -1) continue;
+            ans += val;
+            ans%=MOD;
+        }
+        p.writeln(ans);
     }
     public static void main(String[] args) {
+        fac = new long[(int)2e5 + 1];
+        fac[0] = 1;
+        for (int i = 1; i < fac.length; i++)
+            fac[i] = fac[i - 1] * i % MOD;
         int t = 1;
         t = sc.nextInt();
         while (t-- != 0) {
@@ -213,6 +258,10 @@ public class D_Cyclic_Rotation {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -220,11 +269,6 @@ public class D_Cyclic_Rotation {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

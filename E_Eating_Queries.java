@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 14-05-2022
+    Time: 10-39-09
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,54 +12,35 @@
 */
 
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
+public class E_Eating_Queries {
     public static void s() {
-        int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
+        int n = sc.nextInt(), q = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        Functions.sort(arr);
+        for(int i=1; i<arr.length; i++) {
+            arr[i]+=arr[i-1];
         }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
+        for(int qq = 0; qq<q; qq++) {
+            int xj = sc.nextInt();
+            int start = 0;
+            int end = arr.length-1; 
+            int ans = -1;
+            while(start <= end) {
+                int mid = start + (end-start)/2;
+                if(arr[mid] >= xj) {
+                    ans = mid+1;
+                    end = mid-1;
                 } else {
-                    p.writeln("NO");
-                    return;
+                    start = mid+1;
                 }
-            } else {
-                i--;
             }
+            p.writeln(ans);
         }
-        p.writeln("YES");
     }
     public static void main(String[] args) {
         int t = 1;
@@ -84,7 +65,7 @@ public class D_Cyclic_Rotation {
         static void sort(int... a) {
             ArrayList<Integer> l = new ArrayList<>();
             for (int i : a) l.add(i);
-            Collections.sort(l);
+            Collections.sort(l, Collections.reverseOrder());
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
@@ -213,6 +194,10 @@ public class D_Cyclic_Rotation {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -220,11 +205,6 @@ public class D_Cyclic_Rotation {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

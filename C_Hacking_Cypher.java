@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 19-05-2022
+    Time: 14-58-14
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,58 +12,44 @@
 */
 
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
+public class C_Hacking_Cypher {
     public static void s() {
-        int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
+        String s = sc.nextLine();
+        long a = sc.nextInt(), b = sc.nextInt();
+        long[] rema = new long[s.length()];
+        long[] remb = new long[s.length()];
+        long[] tenp = new long[s.length()];
+        tenp[s.length()-1] = 1;
+        for(int i=s.length()-2; i>=0; i--) {
+            tenp[i] = (tenp[i+1]*10)%b;
         }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
-                } else {
-                    p.writeln("NO");
-                    return;
-                }
-            } else {
-                i--;
+        long rem = 0;
+        for(int i=0; i < rema.length; i++) {
+            rem=(rem*10 + s.charAt(i)-'0')%a;
+            rema[i] = rem;
+        }
+        rem = 0;
+        for(int i=remb.length-1; i >= 0; i--) {
+            rem=((s.charAt(i)-'0')*tenp[i] + rem)%b;
+            remb[i] = rem;
+        }
+        for(int i=0; i<rema.length-1; i++) {
+            if(rema[i] == remb[i+1] && rema[i] == 0 && s.charAt(i+1) != '0') {
+                p.writeln("YES");
+                p.writeln(s.substring(0, i+1) + "\n" + s.substring(i+1));
+                return;
             }
         }
-        p.writeln("YES");
+        p.writeln("NO");
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

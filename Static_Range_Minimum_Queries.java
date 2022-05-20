@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 12-05-2022
+    Time: 08-55-27
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -13,57 +13,65 @@
 
 import java.util.*;
 
-import javax.lang.model.util.ElementScanner6;
+import javax.swing.text.Position;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
-    public static void s() {
-        int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
-        }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
-                } else {
-                    p.writeln("NO");
-                    return;
+public class Static_Range_Minimum_Queries {
+    static class RMQ {
+        int[][] maxRMQ;
+        int[][] minRMQ;
+        int[] log;
+        RMQ(int[] arr) {
+            int n = arr.length;
+            maxRMQ = new int[n][25];
+            minRMQ = new int[n][25];
+            log = new int[n];
+            for(int L=n-1; L>=0; L--) {
+                for(int W = 0; W<25; W++) {
+                    int R = L + (1<<W) - 1;
+                    if(R>=n) break;
+                    if(W == 0) {
+                        maxRMQ[L][W] = arr[L];
+                        minRMQ[L][W] = arr[L];
+                    } else{
+                        maxRMQ[L][W] = Functions.max(maxRMQ[L][W-1], maxRMQ[L+(1<<(W-1))][W-1]);
+                        minRMQ[L][W] = Functions.min(minRMQ[L][W-1], minRMQ[L+(1<<(W-1))][W-1]);
+                    } 
                 }
-            } else {
-                i--;
+            }
+            for(int i=2; i<log.length; i++) {
+                log[i] = 1 + log[i/2];
             }
         }
-        p.writeln("YES");
+        int queryMAX(int L, int R) {
+            int W = R-L;
+            int power = log[W];
+            return Functions.max(maxRMQ[L][power], maxRMQ[R-(1<<power)+1][power]);
+        }
+        int queryMIN(int L, int R) {
+            int W = R-L;
+            int power = log[W];
+            return Functions.min(minRMQ[L][power], minRMQ[R-(1<<power)+1][power]);
+        }
+    }
+    public static void s() {
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        RMQ rmq = new RMQ(arr);
+        for(int i=1; i<=m; i++) {
+            int l=sc.nextInt();
+            int r=sc.nextInt();
+            p.writeln(rmq.query(l-1, r-1));
+        }
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

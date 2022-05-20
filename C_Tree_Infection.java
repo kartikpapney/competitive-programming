@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 08-05-2022
+    Time: 19-04-33
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,54 +12,43 @@
 */
 
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
+public class C_Tree_Infection {
+    static boolean can(ArrayList<Integer> arr, int x) {
+        int rem = 0;
+        for(int i=0; i<arr.size(); i++) {
+            rem += Math.max(arr.get(i) - (x - i), 0);
+        }
+        return rem <= x-arr.size();
+    }
     public static void s() {
         int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
+        int[] arr = sc.readArray(n-1);
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        map.put(0, 1);
+        for(int i=0; i<arr.length; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
         }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
-                } else {
-                    p.writeln("NO");
-                    return;
-                }
+        ArrayList<Integer> a = new ArrayList<Integer>(map.values());
+        // System.out.println(a);
+        Collections.sort(a, Collections.reverseOrder());
+        int start = map.size();
+        int end = n;
+        int ans = n;
+        while(start <= end) {
+            int mid = start + (end - start)/2;
+            if(can(a, mid)) {
+                ans = mid;
+                end = mid-1;
             } else {
-                i--;
+                start = mid+1;
             }
         }
-        p.writeln("YES");
+        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -213,6 +202,10 @@ public class D_Cyclic_Rotation {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -220,11 +213,6 @@ public class D_Cyclic_Rotation {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

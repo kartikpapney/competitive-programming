@@ -20,8 +20,16 @@ public class B_Cobb {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        int n = sc.nextInt(), k = sc.nextInt();
-        int[] arr = sc.readArray(n);
+        int n = sc.nextInt();
+        long k = sc.nextInt();
+        long[] arr = sc.readLongArray(n);
+        long ans = Integer.MIN_VALUE;
+        for(long j=n-1; j>=0; j--) {
+            for(long i=j-1; i>=j-2*k-1 && i >= 0; i--) {
+                ans = Math.max(ans, (i+1)*(j+1) - k*(arr[(int)i]|arr[(int)j]));
+            }
+        }
+        p.writeln(ans);
         
     }
     public static void main(String[] args) {

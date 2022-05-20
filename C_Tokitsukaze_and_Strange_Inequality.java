@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 08-05-2022
+    Time: 20-27-53
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,54 +12,67 @@
 */
 
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
+public class C_Tokitsukaze_and_Strange_Inequality {
     public static void s() {
         int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
-        }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
-                } else {
-                    p.writeln("NO");
-                    return;
-                }
-            } else {
-                i--;
+        int[] arr = sc.readArray(n);
+        long ans = 0;
+        int[][] dp = new int[n+1][n+1];
+        int[][] fp = new int[n+1][n+1];
+        for(int i=0; i<arr.length; i++) {
+            int val = arr[i];
+            for(int j=val; j<dp.length; j++) {
+                dp[i+1][j] = 1;
             }
         }
-        p.writeln("YES");
+        for(int i=0; i<arr.length; i++) {
+            int val = arr[i];
+            for(int j=0; j<=val; j++) {
+                fp[i+1][j] = 1;
+            }
+        }
+        for(int i=1; i<dp.length; i++) {
+            for(int j=1; j<dp[0].length; j++) {
+                dp[i][j] += dp[i-1][j];
+                // p.writes(dp[i][j]);
+            }
+            // p.writeln();
+        }
+        for(int i=dp.length-2; i>=1; i--) {
+            for(int j=1; j<dp[0].length; j++) {
+                fp[i][j] += fp[i+1][j];
+            }
+        }
+        for(int i=1; i<dp.length; i++) {
+            for(int j=1; j<dp[0].length; j++) {
+                // p.writes(dp[i][j]);
+            }
+            // p.writeln();
+        }
+        // p.writeln();
+        for(int i=1; i<dp.length; i++) {
+            for(int j=1; j<dp[0].length; j++) {
+                // p.writes(fp[i][j]);
+            }
+            // p.writeln();
+        }
+        
+        for(int i=1; i<n-1; i++) {
+            for(int j=i+1; j<n-1; j++) {
+                int idx = i+1;
+                int jdx = j+1;
+                // ..., i, j, ...
+                int a = dp[idx][arr[j]];
+                int b = fp[jdx][arr[i]];
+                ans+=a*b;
+            }
+        }
+        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -213,6 +226,10 @@ public class D_Cyclic_Rotation {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -220,11 +237,6 @@ public class D_Cyclic_Rotation {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 14-05-2022
+    Time: 10-06-24
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,54 +12,35 @@
 */
 
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
+public class D_X_Sum {
     public static void s() {
-        int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
-        }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
-                } else {
-                    p.writeln("NO");
-                    return;
-                }
-            } else {
-                i--;
+        int n = sc.nextInt(), m = sc.nextInt();
+        int[][] arr = new int[n][m];
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                arr[i][j] = sc.nextInt();
             }
         }
-        p.writeln("YES");
+        int[] diagsum = new int[n+m-1];
+        int[] revdiag = new int[n+m-1];
+        for(int i=0; i<arr.length; i++) {
+            for(int j=0; j<arr[0].length; j++) {
+                diagsum[i+j] += arr[i][j];
+                revdiag[n-i-1+j]+=arr[i][j];
+            }
+        }
+        int max = 0;
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                max = Math.max(max, diagsum[i+j] + revdiag[n-i-1+j]-arr[i][j]);
+            }
+        }
+        p.writeln(max);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -213,6 +194,10 @@ public class D_Cyclic_Rotation {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -220,11 +205,6 @@ public class D_Cyclic_Rotation {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 24-04-2022
-    Time: 10-47-22
+    Date: 14-05-2022
+    Time: 11-02-42
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -12,54 +12,69 @@
 */
 
 import java.util.*;
-
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class D_Cyclic_Rotation {
-    public static void s() {
-        int n = sc.nextInt();
-        int[] a = sc.readArray(n);
-        int[] b = sc.readArray(n);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashMap<Integer, Integer> nmap = new HashMap<>();
-        for(int i=a.length-1; i>=0; i--) {
-            map.put(a[i], i);
+class Solution {
+    public int shortestPathLength(int[][] graph) {
+        if(graph.length == 1) return 0;
+        int states = (1<<graph.length)-1;
+        Queue<int[]> q = new ArrayDeque<>();
+        for(int i=0; i<graph.length; i++) {
+            q.add(new int[]{i, (1<<i)});
         }
-        //              i
-        // a -> 1 2 3 3 2
-        // b -> 1 3 3 2 2
-        //              j
-        int i = a.length-1;
-        for(int j=b.length-1; j>=0; j--) {
-            if(a[i] != b[j]) {
-                if(i == a.length-1) {
-                    p.writeln("NO");
-                    return;
-                } else if(b[j] == b[j+1]) {
-                    if(map.get(b[j])<i) {
-                        nmap.put(b[j], nmap.getOrDefault(b[j], 0) + 1);
-                    } else {
-                        p.writeln("NO");
-                        return;
-                    }
-                } else if(nmap.containsKey(a[i]) && nmap.get(a[i]) > 0){
-                    nmap.put(a[i], nmap.get(a[i]) - 1);
-                    i--;
-                    j++;
-                } else {
-                    p.writeln("NO");
-                    return;
+        int[][] visited = new int[graph.length][states+1];
+        int ans = 0;
+        while(!q.isEmpty()) {
+            ans++;
+            int size = q.size();
+            for(int i=0; i<size; i++) {
+                int[] poll = q.poll();
+                int node = poll[0];
+                int path = poll[1];
+                for(int nbr : graph[node]) {
+                    int npath = path|(1<<nbr);
+                    if(visited[nbr][path] == 1) continue;
+                    visited[nbr][path] = 1;
+                    if(npath == states) return ans;
+                    q.add(new int[]{nbr, npath});
                 }
-            } else {
-                i--;
             }
         }
-        p.writeln("YES");
+        return -1;
+    }
+}
+
+public class G_White_Black_Balanced_Subtrees {
+    public static int[] find(ArrayList<ArrayList<Integer>> tree, int parent, int[] ans, String s) {
+        int black = s.charAt(parent-1)=='B'?1:0, white = s.charAt(parent-1)=='B'?0:1;
+        int[] crnt = new int[]{black, white};
+        for(int child : tree.get(parent)) {
+            int[] subtree = find(tree, child, ans, s);
+            if(subtree[0] == subtree[1]) ans[0]++;
+            crnt[0]+=subtree[0];
+            crnt[1]+=subtree[1];
+        }
+        return crnt;
+    }
+    public static void s() {
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n-1);
+        String s = sc.nextLine();
+        ArrayList<ArrayList<Integer>> tree = new ArrayList<>();
+        for(int i=0; i<=n; i++) tree.add(new ArrayList<>());
+        for(int i=0; i<n-1; i++) {
+            int child = i+2;
+            int parent = arr[i];
+            tree.get(parent).add(child);
+        }
+        // System.out.println(tree);
+        int[] ans = new int[1];
+        int[] get = find(tree, 1, ans, s);
+        if(get[0]==get[1]) ans[0]++;
+        p.writeln(ans[0]);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -213,6 +228,10 @@ public class D_Cyclic_Rotation {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -220,11 +239,6 @@ public class D_Cyclic_Rotation {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

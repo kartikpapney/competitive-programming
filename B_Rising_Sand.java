@@ -1,11 +1,14 @@
 /*
-    Rating: 1367
-    Date: 28-12-2021
-    Time: 12-56-58
+    Rating: 1378
+    Date: 29-06-2022
+    Time: 10-47-14
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
     Codechef: https://www.codechef.com/users/kartikpapney
+
+----------------------------Jai Shree Ram----------------------------
+
 */
 
 import java.util.*;
@@ -14,104 +17,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-
-class Solution {
-    public double[] medianSlidingWindow(int[] nums, int k) {
-        int n = nums.length;
-        double[] res = new double[n-k+1];
-        int idx = 0;
-        TreeSet<Integer> max = new TreeSet<>(Collections.reverseOrder()), min = new TreeSet<>();
-        for(int i=0; i<n; i++) {
-            if(max.size() == min.size()) {
-                min.add(nums[i]);
-                max.add(min.pollFirst());
-            } else {
-                max.add(nums[i]);
-                min.add(max.pollFirst());
-            }
-            if(i>=k-1) {
-                // System.out.println(max);
-                // System.out.println(min);
-                if(max.size() == min.size()) {
-                    double d1 = max.first();
-                    double d2 = min.first();
-                    res[idx++] = (d1+d2)/2;
-                } else {
-                    res[idx++] = max.first();
-                }
-                if(max.first() >= nums[i-k+1]) {
-                    max.remove(nums[i-k+1]);
-                    if(!min.isEmpty()) max.add(min.pollFirst());
-                }
-                else {
-                    min.remove(nums[i-k+1]);
-                    if(max.size() > min.size()+1) {
-                        min.add(max.pollFirst());
-                    }
-                }
-                
-            }
-        }
-        return res;
-    }
-}
-
-public class B_Restore_Modulo {
-    static int case0(int[] arr) {
-        int c = 0;
-        for(int i=1; i<arr.length; i++) if(arr[i] == arr[i-1]) c++;
-        return c;
-    }
-    static int[] findmc(int[] arr) {
-        int pos = -1, neg = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(arr[i] - arr[i-1] < 0) {
-                neg = arr[i] - arr[i-1];
-            } else if(arr[i] - arr[i-1] > 0) {
-                pos = arr[i] - arr[i-1];
-            }
-        }
-        return new int[]{pos, neg};
-    }
-    static boolean pcheck(int[] arr) {
-        int diff = arr[1] - arr[0];
-        for(int i=1; i<arr.length; i++) if(arr[i] - arr[i-1] != diff) return false;
-        return true;
-    }
-    static boolean check(int[] arr, int m, int c) {
-        
-        for(int i=1; i<arr.length; i++) {
-            if(arr[i] != (arr[i-1] + c)%m) return false;
-        }
-        return arr[0]%m == arr[0];
-    }
+public class B_Rising_Sand {
     public static void s() {
-        int n = sc.nextInt();
+        int n = sc.nextInt(), k = sc.nextInt();
         int[] arr = sc.readArray(n);
-        if(n <= 2 || case0(arr) == n-1) {
-            p.writeln(0);
-        } else if(case0(arr) != 0) {
-            p.writeln(-1);
-        } else {
-            int[] val = findmc(arr);
-            int pos = val[0], neg = val[1];
-            if(pos < 0 || neg > 0) {
-                if(pcheck(arr)) {
-                    p.writeln(0);
-                } else {
-                    p.writeln(-1);
-                }
-            } else {
-                int m = pos - neg;
-                int c = m + neg;
-                if(check(arr, m, c)) {
-                    p.writeln(m + " " + c);
-                } else {
-                    p.writeln(-1);
-                }
-                
-            }
+        int cnt = 0;
+        for(int i=1; i<n-1; i++) {
+            if(arr[i]>arr[i-1]+arr[i+1]) cnt++;
         }
+        p.writeln(cnt);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -123,57 +37,61 @@ public class B_Restore_Modulo {
     }
 
 
+    public static boolean debug = false;
+    static void debug(String st) {
+        if(debug) p.writeln(st);
+    }
     static final Integer MOD = (int) 1e9 + 7;
     static final FastReader sc = new FastReader();
     static final Print p = new Print();
 
     static class Functions {
 
-        static void sort(int[] a) {
+        static void sort(int... a) {
             ArrayList<Integer> l = new ArrayList<>();
             for (int i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static void sort(long[] a) {
+        static void sort(long... a) {
             ArrayList<Long> l = new ArrayList<>();
             for (long i : a) l.add(i);
             Collections.sort(l);
             for (int i = 0; i < a.length; i++) a[i] = l.get(i);
         }
 
-        static int max(int[] a) {
+        static int max(int... a) {
             int max = Integer.MIN_VALUE;
             for (int val : a) max = Math.max(val, max);
             return max;
         }
 
-        static int min(int[] a) {
+        static int min(int... a) {
             int min = Integer.MAX_VALUE;
             for (int val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long min(long[] a) {
+        static long min(long... a) {
             long min = Long.MAX_VALUE;
             for (long val : a) min = Math.min(val, min);
             return min;
         }
 
-        static long max(long[] a) {
+        static long max(long... a) {
             long max = Long.MIN_VALUE;
             for (long val : a) max = Math.max(val, max);
             return max;
         }
 
-        static long sum(long[] a) {
+        static long sum(long... a) {
             long sum = 0;
             for (long val : a) sum += val;
             return sum;
         }
 
-        static int sum(int[] a) {
+        static int sum(int... a) {
             int sum = 0;
             for (int val : a) sum += val;
             return sum;
@@ -265,22 +183,30 @@ public class B_Restore_Modulo {
             char c = '\n';
             strb.append(c);
         }
+        public void yes() {
+            char c = '\n';
+            writeln("YES");
+        }
 
-        public void writes(int[] arr) {
+        public void no() {
+            writeln("NO");
+        }
+
+        public void writes(int... arr) {
             for (int val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writes(long[] arr) {
+        public void writes(long... arr) {
             for (long val : arr) {
                 write(val);
                 write(' ');
             }
         }
 
-        public void writeln(int[] arr) {
+        public void writeln(int... arr) {
             for (int val : arr) {
                 writeln(val);
             }

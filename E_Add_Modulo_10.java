@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 12-08-2022
+    Time: 22-47-38
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,23 +17,44 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class E_Add_Modulo_10 {
     public static void s() {
         int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
+        long[] arr = sc.readLongArray(n);
+        boolean isthere = false;
+        boolean notthere = false;
+        for(int i=0; i<arr.length; i++) {
+            isthere|=(arr[i]%10)%5 == 0;
+            notthere|=!((arr[i]%10)%5 == 0);
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        if(isthere && notthere) {
+            p.writeln("No");
+        } else if(isthere) {
+            for(int i=0; i<arr.length; i++) {
+                if(arr[i]%10 == 5) arr[i]+=5;
+            }
+            for(int i=0; i<arr.length; i++) {
+                if(arr[i]!=arr[0]) {
+                    p.writeln("No");
+                    return;
+                }
+            }
+            p.writeln("Yes");
+        } else {
+            for(int i=0; i<arr.length; i++) {
+                while(arr[i]%10 != 2) {
+                    arr[i] = arr[i]+(arr[i]%10);
+                }
+            }
+            Arrays.sort(arr);
+            for(int i=1; i<arr.length; i++) {
+                if((arr[i]-arr[i-1])%20 != 0) {
+                    p.writeln("No");
+                    return;
+                }
+            }
+            p.writeln("Yes");
+        }
     }
     public static void main(String[] args) {
         int t = 1;

@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 16-08-2022
+    Time: 20-28-23
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,23 +17,72 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
-    public static void s() {
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
+public class C_Fighting_Tournament {
+    static class Pair {
+        int val;
+        int idx;
+        public Pair(int val, int idx) {
+            this.val = val;
+            this.idx = idx;
+        }
+    }
+    public static int bs(List<Integer> a, int val) {
+        int start = 0;
+        int end = a.size()-1;
         int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
+        while(start <= end) {
+            int mid = start + (end-start)/2;
+            if(a.get(mid) < val) {
+                ans = mid+1;
+                start=mid+1;
             } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
+                end = mid-1;
             }
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        return ans;
+    }
+    public static void s() {
+        int n = sc.nextInt();
+        int q = sc.nextInt();
+        Pair[] a = new Pair[n];
+        for(int i=0; i<a.length; i++) a[i] = new Pair(sc.nextInt(), i);
+        Deque<Pair> dq = new ArrayDeque<>();
+        for(Pair p : a) dq.add(p);
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        for(int i=0; i<(n-1); i++) {
+            Pair pa = dq.removeFirst();
+            Pair pb = dq.removeFirst();
+            if(pa.val > pb.val) {
+                map.putIfAbsent(pa.idx, new ArrayList<>());
+                map.get(pa.idx).add(i);
+                dq.addFirst(pa);
+                dq.addLast(pb);
+            } else {
+                map.putIfAbsent(pb.idx, new ArrayList<>());
+                map.get(pb.idx).add(i);
+                dq.addFirst(pb);
+                dq.addLast(pa);
+            }
+        }
+        for(int idx=0; idx<q; idx++) {
+            int i = sc.nextInt()-1;
+            int k = sc.nextInt();
+            // ith bnda kth round me... 
+            if(!map.containsKey(i)) {
+                p.writeln(0);
+            } else {
+                int won = bs(map.get(i), k);
+                if(k > n-1) {
+                    if(a[i].val == n) {
+                        p.writeln(won+(k-(n-1)));
+                    } else {
+                        p.writeln(won);
+                    }
+                } else {
+                    p.writeln(won);
+                }
+            }
+        }
     }
     public static void main(String[] args) {
         int t = 1;

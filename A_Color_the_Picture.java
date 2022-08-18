@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 12-08-2022
+    Time: 23-18-31
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,23 +17,30 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class A_Color_the_Picture {
     public static void s() {
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
+        long n = sc.nextLong(), m = sc.nextLong(), k = sc.nextLong();
+        long[] arr = sc.readLongArray((int)k);
+        boolean check = false;
+        long ans = 0;
+        for(int i=0; i<k; i++) {
+            if(arr[i]/m > 1) ans += (arr[i]/m);
+            if(arr[i]/m > 2) check = true;
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        if(ans >= n &&(n%2 == 0 || check)) {
+            p.writeln("Yes");
+            return;
+        }
+        ans = 0;
+        for(int i=0; i<k; i++) {
+            if(arr[i]/n > 1) ans += (arr[i]/n);
+            if(arr[i]/n > 2) check = true;
+        }
+        if(ans >= m &&(m%2 == 0 || check)){
+            p.writeln("Yes");
+            return;
+        } 
+        p.writeln("No");
     }
     public static void main(String[] args) {
         int t = 1;

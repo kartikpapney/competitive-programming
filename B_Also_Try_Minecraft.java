@@ -1,43 +1,38 @@
-/*
-    Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
-    Author: Kartik Papney
-    Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
-    Leetcode: https://leetcode.com/kartikpapney/
-    Codechef: https://www.codechef.com/users/kartikpapney
-
-----------------------------Jai Shree Ram----------------------------
-
-*/
-
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class B_Also_Try_Minecraft {
     public static void s() {
         int n = sc.nextInt();
-        int k = sc.nextInt();
+        int q = sc.nextInt();
         int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
+        long[] prefix = new long[n];
+        long[] suffix = new long[n];
+        long sum = 0;
+        for(int i=1; i<n; i++) {
+            sum += Math.max(0, arr[i-1]-arr[i]);
+            prefix[i] = sum;
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        sum = 0;
+        for(int i=n-2; i>=0; i--) {
+            sum += Math.max(0, arr[i+1] - arr[i]);
+            suffix[i] = sum;
+        }
+        for(int i=0; i<q;i++) {
+            int si = sc.nextInt()-1;
+            int di = sc.nextInt()-1;
+            long ans = 0;
+            if(si < di) ans = prefix[di]-prefix[si];
+            else ans = suffix[di]-suffix[si];
+            p.writeln(ans);
+        }
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

@@ -1,39 +1,15 @@
-/*
-    Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
-    Author: Kartik Papney
-    Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
-    Leetcode: https://leetcode.com/kartikpapney/
-    Codechef: https://www.codechef.com/users/kartikpapney
-
-----------------------------Jai Shree Ram----------------------------
-
-*/
-
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class A_Three_Doors {
     public static void s() {
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
-        }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        int x = sc.nextInt();
+        int[] arr = sc.readArray(3);
+        if(arr[x-1] != 0 && arr[arr[x-1]-1] != 0) p.writeln("YES");
+        else p.writeln("NO");
     }
     public static void main(String[] args) {
         int t = 1;

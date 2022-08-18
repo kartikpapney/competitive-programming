@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 16-08-2022
+    Time: 16-18-40
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,23 +17,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class C_Mark_and_His_Unfinished_Essay {
     public static void s() {
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
+        int n = sc.nextInt(), c = sc.nextInt(), q = sc.nextInt();
+        String s = sc.nextLine();
+        int[][] arr = new int[c][2];
+        for(int i=0; i<arr.length; i++) {
+            arr[i][0] = sc.nextInt();
+            arr[i][1] = sc.nextInt();
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        in
     }
     public static void main(String[] args) {
         int t = 1;

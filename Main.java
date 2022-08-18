@@ -1,16 +1,3 @@
-/*
-    Rating: 1378
-    Date: 31-07-2022
-    Time: 12-12-56
-    Author: Kartik Papney
-    Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
-    Leetcode: https://leetcode.com/kartikpapney/
-    Codechef: https://www.codechef.com/users/kartikpapney
-
-----------------------------Jai Shree Ram----------------------------
-
-*/
-
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,13 +5,14 @@ import java.io.InputStreamReader;
 
 
 public class Main {
-    
+
     public static void s() {
-        
+        int n = sc.nextInt();
+        int k = sc.nextInt();
     }
     public static void main(String[] args) {
         int t = 1;
-        // t = sc.nextInt();
+        t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -174,6 +162,10 @@ public class Main {
             strb.append(str).append(c);
         }
 
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
+        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -181,11 +173,6 @@ public class Main {
 
         public void no() {
             writeln("NO");
-        }
-
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
         }
 
         public void writes(int... arr) {

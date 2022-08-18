@@ -1,39 +1,93 @@
-/*
-    Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
-    Author: Kartik Papney
-    Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
-    Leetcode: https://leetcode.com/kartikpapney/
-    Codechef: https://www.codechef.com/users/kartikpapney
-
-----------------------------Jai Shree Ram----------------------------
-
-*/
-
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
-    public static void s() {
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
+public class C_Recover_an_RBS {
+    public static boolean check(String s) {
+        int prefix = 0;
+        for(char c : s.toCharArray()) {
+            if(c == '(') {
+                prefix++;
             } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
+                prefix--;
             }
+            if(prefix < 0) return false;
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        return prefix == 0;
+    }
+    public static void s() {
+        String s = sc.nextLine();
+        int n = s.length();
+        int o = 0, c = 0;
+        for(char ch : s.toCharArray()) {
+            if(ch == '(') o++;
+            else if(ch == ')') c++;
+        }
+        if(o > c) {
+            int closing = o - c;
+            int opening = (n - (o+c+closing))/2;
+            closing += opening;
+            // p.writeln(opening+" "+closing);
+            if(closing == 0 || opening == 0) {
+                p.writeln("YES");
+            } else {
+                StringBuilder strb = new StringBuilder();
+                strb.append(s);
+                for(int i=0; i<s.length(); i++) {
+                    if(strb.charAt(i) == '?') {
+                        if(opening > 1) {
+                            strb.setCharAt(i, '(');
+                            opening--;
+                        } else if(opening == 1) {
+                            strb.setCharAt(i, ')');
+                            closing--;
+                            opening--;
+                        } else if(opening == 0) {
+                            strb.setCharAt(i, '(');
+                            opening--;
+                        } else {
+                            strb.setCharAt(i, ')');
+                            closing--;
+                        }
+                    }
+                }
+                if(check(strb.toString())) p.writeln("NO");
+                else p.writeln("YES");
+            }
+        } else {
+            int opening = c-o;
+            int closing = (n - (o+c+opening))/2;
+            opening += closing;
+            // p.writeln(opening+" "+closing);
+            if(closing == 0 || opening == 0) {
+                p.writeln("YES");
+            } else {
+                StringBuilder strb = new StringBuilder();
+                strb.append(s);
+                for(int i=0; i<s.length(); i++) {
+                    if(strb.charAt(i) == '?') {
+                        if(opening > 1) {
+                            strb.setCharAt(i, '(');
+                            opening--;
+                        } else if(opening == 1) {
+                            strb.setCharAt(i, ')');
+                            closing--;
+                            opening--;
+                        } else if(opening == 0) {
+                            strb.setCharAt(i, '(');
+                            opening--;
+                        } else {
+                            strb.setCharAt(i, ')');
+                            closing--;
+                        }
+                    }
+                }
+                if(check(strb.toString())) p.writeln("NO");
+                else p.writeln("YES");
+            }
+        }     
     }
     public static void main(String[] args) {
         int t = 1;

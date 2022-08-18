@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 14-08-2022
+    Time: 17-36-34
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,27 +17,41 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
-    public static void s() {
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
+public class Grid_Paths {
+    static boolean[][] visited = new boolean[8][8];
+    public static int count(String s, int idx, int hor, int ver) {
+        if(idx == s.length()) {
+            return hor==6&&ver==0?1:0;
         }
-        ans += Math.max(0, clen-k);
+        if(hor < 0 || ver < 0 || hor > 6 || ver > 6 || visited[hor][ver]) return 0;
+        visited[hor][ver] = true;
+        int ans = 0;
+        if(s.charAt(idx) == 'R') {
+            ans = count(s, idx+1, hor+1, ver);
+        } else if(s.charAt(idx) == 'L') {
+            ans = count(s, idx+1, hor-1, ver);
+        } else if(s.charAt(idx) == 'U') {
+            ans = count(s, idx+1, hor, ver-1);
+        } else if(s.charAt(idx) == 'D') {
+            ans = count(s, idx+1, hor, ver+1);
+        } else {
+            ans = 
+                    count(s, idx+1, hor+1, ver)
+                    + count(s, idx+1, hor-1, ver)
+                    + count(s, idx+1, hor, ver+1)
+                    + count(s, idx+1, hor, ver-1);
+        }
+        visited[hor][ver] = false;
+        return ans;
+    }
+    public static void s() {
+        String s = sc.nextLine();
+        int ans = count(s, 0, 0, 0);
         p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -187,10 +201,6 @@ public class G_2_Sort {
             strb.append(str).append(c);
         }
 
-        public void writeln() {
-            char c = '\n';
-            strb.append(c);
-        }
         public void yes() {
             char c = '\n';
             writeln("YES");
@@ -198,6 +208,11 @@ public class G_2_Sort {
 
         public void no() {
             writeln("NO");
+        }
+
+        public void writeln() {
+            char c = '\n';
+            strb.append(c);
         }
 
         public void writes(int... arr) {

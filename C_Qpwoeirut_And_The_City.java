@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 14-08-2022
+    Time: 18-54-25
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,23 +17,47 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class C_Qpwoeirut_And_The_City {
+    public static long cal(long[] arr, int start, int end) {
+        long ans = 0;
+        for(int i=start+1; i<end; i+=2) {
+            ans += Math.max(0, Math.max(arr[i-1], arr[i+1])-arr[i]+1);
+        }
+        return ans;
+    }
+    public static long even(long[] arr, int n) {
+        long[] diff = new long[n];
+        for(int i=1 ;i<n-1; i++) {
+            diff[i] = Math.max(0, Math.max(arr[i-1], arr[i+1])-arr[i]+1);
+        }
+        // p.writes(diff);
+        // p.writeln();
+        long esum = 0;
+        for(int i=0; i<n; i+=2) {
+            esum+=diff[i];
+        }
+        long ans = Long.MAX_VALUE;
+        long lmeven = 0, lmeodd = 0;
+        for(int i=0; i<n; i++) {
+            // right me even + left me odd;
+            if(i%2 == 0) lmeven+=diff[i];
+            else lmeodd+=diff[i];
+            long rmeeven = esum-lmeven;
+            ans = Math.min(ans, rmeeven+lmeodd);
+        }
+        return ans;
+    }
+    public static long odd(long[] arr, int n) {
+        return cal(arr, 0, n-1);
+    }
     public static void s() {
         int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
+        long[] arr = sc.readLongArray(n);
+        if(n%2 == 0) {
+            p.writeln(even(arr, n));
+        } else {
+            p.writeln(odd(arr, n));
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;

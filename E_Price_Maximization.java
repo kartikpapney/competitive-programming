@@ -1,38 +1,43 @@
-/*
-    Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
-    Author: Kartik Papney
-    Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
-    Leetcode: https://leetcode.com/kartikpapney/
-    Codechef: https://www.codechef.com/users/kartikpapney
-
-----------------------------Jai Shree Ram----------------------------
-
-*/
-
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class E_Price_Maximization {
     public static void s() {
         int n = sc.nextInt();
         int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
+        long[] arr = sc.readLongArray(n);
+        HashMap<Long, Integer> map = new HashMap<>();
+        long ans = 0;
+        for(long val : arr) {
+            map.put(val%k, map.getOrDefault(val%k, 0)+1);
+            ans += val/k;
+        }
+        long[][] count = new long[map.size()][2];
+        int idx = 0;
+        for(Map.Entry<Long, Integer> mp : map.entrySet()) {
+            count[idx][0] = mp.getKey();
+            count[idx++][1] = mp.getValue(); 
+        }
+        Arrays.sort(count, (a, b) -> Long.compare(a[0], b[0]));
+        for(int i=count.length-1; i>=0; i--) {
+            for(int j=0; j<i; j++) {
+                if((count[i][0]+count[j][0])>= k) {
+                    long add = Math.max(Math.min(count[i][1], count[j][1]), 0);
+                    count[i][1]-=add;
+                    count[j][1]-=add;
+                    ans += add;
+                }
+            }
+            if(2*count[i][0] >= k) {
+                long add = Math.max(0,count[i][1]/2);
+                count[i][1]-=add;
+                count[i][1]-=add;
+                ans += add;
             }
         }
-        ans += Math.max(0, clen-k);
         p.writeln(ans);
     }
     public static void main(String[] args) {

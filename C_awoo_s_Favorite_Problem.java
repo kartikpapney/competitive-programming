@@ -22,6 +22,44 @@ public class C_awoo_s_Favorite_Problem {
         int n = sc.nextInt();
         String s = sc.nextLine();
         String t = sc.nextLine();
+        int sa = 0, sb=0, sc = 0;
+        int ta = 0, tb=0, tc = 0;
+        for(int i=0; i<n; i++) {
+            if(s.charAt(i) == t.charAt(i)) continue;
+            boolean a = false, b = false, c = false;
+            for(int j=i; j<n; j++) {
+                if(s.charAt(j) == 'a') a = true;
+                if(s.charAt(j) == 'b') b = true;
+                if(s.charAt(j) == 'c') c = true;
+                if(t.charAt(j) == 'a') a = true;
+                if(t.charAt(j) == 'b') b = true;
+                if(t.charAt(j) == 'c') c = true;
+                if((a&&c) || j == n-1) {
+                    int end = (j==n-1)?n:i;
+                    for(int k=i; k<end; k++) {
+                        if(s.charAt(k) == 'a') sa++;
+                        if(s.charAt(k) == 'b') sb++;
+                        if(s.charAt(k) == 'c') sc++;
+                        if(t.charAt(k) == 'a') ta++;
+                        if(t.charAt(k) == 'b') tb++;
+                        if(t.charAt(k) == 'c') tc++;
+                        if(a) {
+                            if(sb>tb) {
+                                p.writeln("NO");
+                                return;
+                            }
+                        } else {
+                            if(sb < tb) {
+                                p.writeln("NO");
+                                return;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        p.writeln("YES");
     }
     public static void main(String[] args) {
         int t = 1;

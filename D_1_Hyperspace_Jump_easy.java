@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 13-08-2022
+    Time: 21-29-18
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,27 +17,37 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class D_1_Hyperspace_Jump_easy {
+
     public static void s() {
         int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
+        HashMap<List<Long>, Integer> map = new HashMap<>();
+        HashMap<Integer, List<Long>> idx = new HashMap<>();
+        for(int i=0; i<n; i++) {
+            String s = sc.nextLine();
+            String[] a = s.split("/");
+            Long b = Long.parseLong(a[1]);
+            a[0] = a[0].substring(1, a[0].length()-1);
+            String[] aa = a[0].split("\\+");
+            Long c = Long.parseLong(aa[0]);
+            Long d = Long.parseLong(aa[1]);
+            Long e = c+d;
+            Long gcd = Functions.gcd(e, b);
+            b/=gcd;
+            e/=gcd;
+            List<Long> l = new ArrayList<>();
+            l.add(b);
+            l.add(e);
+            idx.put(i, l);
+            map.put(l, map.getOrDefault(l, 0)+1);
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        for(int i=0; i<n; i++) {
+            p.writes(map.get(idx.get(i)));
+        }
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

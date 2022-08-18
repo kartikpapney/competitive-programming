@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 13-08-2022
+    Time: 16-45-44
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,27 +17,40 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class C_Constanze_s_Machine {
+    static long[] dp = new long[100001];
+    public static void compute() {
+        dp[0] = 1;
+        dp[1] = 2;
+        for(int i=2; i<dp.length; i++) {
+            dp[i] = (dp[i-1]+dp[i-2])%MOD;
+        }
+    }
     public static void s() {
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
+        String s = sc.nextLine();
+        long ans = 1;
+        for(int i=0; i<s.length();) {
+            char c = s.charAt(i);
+            if(c == 'n' || c == 'u') {
+                int j=i+1;
+                for(; j<s.length() && s.charAt(j) == s.charAt(j-1); j++);
+                int rep = j-i-1;
+                ans=Functions.mod_mul(ans, dp[rep]);
+                i = j;
             } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
+                i++;
+            }
+            if(c == 'w' || c == 'm') {
+                p.writeln(0);
+                return;
             }
         }
-        ans += Math.max(0, clen-k);
         p.writeln(ans);
     }
     public static void main(String[] args) {
+        compute();
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

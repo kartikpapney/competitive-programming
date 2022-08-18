@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 13-08-2022
+    Time: 13-45-20
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,27 +17,31 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class A_Fox_and_Box_Accumulation {
     public static void s() {
         int n = sc.nextInt();
-        int k = sc.nextInt();
         int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
+        boolean[] visited = new boolean[n];
+        Arrays.sort(arr);
+        int pile = 0;
+        for(int i=0; i<arr.length; i++) {
+            if(!visited[i]) {
+                int cinc = 1;
+                visited[i] = true;
+                for(int j=i+1; j<arr.length; j++) {
+                    if(!visited[j] && arr[j] >= cinc) {
+                        visited[j] = true;
+                        cinc++;
+                    }
+                }
+                pile++;
             }
         }
-        ans += Math.max(0, clen-k);
-        p.writeln(ans);
+        p.writeln(pile);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

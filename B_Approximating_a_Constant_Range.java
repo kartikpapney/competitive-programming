@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 13-08-2022
+    Time: 15-31-14
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,27 +17,42 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class B_Approximating_a_Constant_Range {
+    public static boolean check(int[] arr, int len) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<arr.length; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+            if(i >= len) {
+                map.put(arr[i-len], map.get(arr[i-len]) - 1);
+                if(map.get(arr[i-len]) == 0) map.remove(arr[i-len]);
+                if(map.size()<=2) return true;
+            }
+            if(i == len-1) {
+                if(map.size() <= 2) return true;
+            } 
+        }
+        return map.size()<=2;
+    }
     public static void s() {
         int n = sc.nextInt();
-        int k = sc.nextInt();
         int[] arr = sc.readArray(n);
+        int start = 1;
+        int end = n;
         int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
+        while(start <= end) {
+            int mid = start+(end-start)/2;
+            if(check(arr, mid)) {
+                ans = mid;
+                start = mid+1;
             } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
+                end = mid-1;
             }
         }
-        ans += Math.max(0, clen-k);
         p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }

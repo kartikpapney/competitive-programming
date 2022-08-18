@@ -1,7 +1,7 @@
 /*
     Rating: 1378
-    Date: 17-06-2022
-    Time: 11-13-31
+    Date: 13-08-2022
+    Time: 17-13-37
     Author: Kartik Papney
     Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
     Leetcode: https://leetcode.com/kartikpapney/
@@ -17,27 +17,39 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class G_2_Sort {
+public class B_DZY_Loves_Chemistry {
+    public static int dfs(ArrayList<ArrayList<Integer>> graph, int src, boolean[] visited) {
+        if(visited[src]) return 0;
+        visited[src] = true;
+        int ans = 1;
+        for(int nbr : graph.get(src)) {
+            ans += dfs(graph, nbr, visited);
+        }
+        return ans;
+    }
     public static void s() {
         int n = sc.nextInt();
-        int k = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int ans = 0;
-        int clen = 1;
-        for(int i=1; i<arr.length; i++) {
-            if(2*arr[i] > arr[i-1]) {
-                clen++;
-            } else {
-                ans += Math.max(0, clen-k);
-                clen = 1;
-            }
+        int m = sc.nextInt();
+        long ans = 1;
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        for(int i=0; i<n; i++) graph.add(new ArrayList<>());
+        for(int i=0; i<m; i++) {
+            int src = sc.nextInt();
+            int des = sc.nextInt();
+            graph.get(src-1).add(des-1);
+            graph.get(des-1).add(src-1);
         }
-        ans += Math.max(0, clen-k);
+        boolean[] visited = new boolean[n];
+        for(int i=0; i<visited.length; i++) {
+            int get = dfs(graph, i, visited);
+            if(get == 0) continue;
+            ans=Functions.mod_mul(ans, Functions.pow(2, get-1));
+        }
         p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
-        t = sc.nextInt();
+        // t = sc.nextInt();
         while (t-- != 0) {
             s();
         }
@@ -49,7 +61,7 @@ public class G_2_Sort {
     static void debug(String st) {
         if(debug) p.writeln(st);
     }
-    static final Integer MOD = (int) 1e9 + 7;
+    static final Long MOD = (long) 1e18+ 7;
     static final FastReader sc = new FastReader();
     static final Print p = new Print();
 

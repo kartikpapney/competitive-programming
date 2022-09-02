@@ -21,12 +21,32 @@ public class C_Mark_and_His_Unfinished_Essay {
     public static void s() {
         int n = sc.nextInt(), c = sc.nextInt(), q = sc.nextInt();
         String s = sc.nextLine();
-        int[][] arr = new int[c][2];
+        long[][] arr = new long[c][2];
+        long[][] brr = new long[c][2];
+        long clen = s.length()-1;
         for(int i=0; i<arr.length; i++) {
-            arr[i][0] = sc.nextInt();
-            arr[i][1] = sc.nextInt();
+            arr[i][0] = sc.nextLong()-1;
+            arr[i][1] = sc.nextLong()-1;
+            long len = arr[i][1] - arr[i][0] + 1;
+            brr[i][0] = clen+1;
+            brr[i][1] = clen+len;
+            clen += len;
         }
-        in
+        // for(int i=0; i<arr.length; i++) {
+        //     p.writeln(brr[i][0] +" " +brr[i][1]);
+        // }
+        for(int i=0; i<q; i++) {
+            long pos = sc.nextLong() - 1;
+            // p.writeln(pos);
+            for(int j=brr.length-1; j>=0; j--) {
+                if(pos >= brr[j][0] && pos <= brr[j][1]) {
+                    pos = (pos-brr[j][0]);
+                    pos += arr[j][0];
+                }
+                // p.writeln(pos);
+            }
+            p.writeln(s.charAt((int)pos));
+        }
     }
     public static void main(String[] args) {
         int t = 1;

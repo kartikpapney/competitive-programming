@@ -5,10 +5,12 @@ import java.io.InputStreamReader;
 
 
 public class Main {
-
     public static void s() {
-        int n = sc.nextInt();
-        int k = sc.nextInt();
+        long x = sc.nextLong();
+        long y = sc.nextLong();
+        long z = sc.nextLong();
+        long ans = 4*x + 2*y;
+        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;

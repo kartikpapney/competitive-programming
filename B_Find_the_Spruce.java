@@ -21,9 +21,54 @@ public class B_Find_the_Spruce {
     }
     public static void s() {
         int n = sc.nextInt(), m = sc.nextInt();
-        String[] arr = new String[n];
-        for(int i=0; i<arr.length; i++) arr[i] = sc.nextLine();
-        
+        char[][] arr = new char[n][m];
+        for(int i=0; i<arr.length; i++) {
+            String s = sc.nextLine();
+            for(int j=0; j<arr[0].length; j++) {
+                arr[i][j] = s.charAt(j);
+            }
+        }
+        int[][] up = new int[n][m], l = new int[n][m], r = new int[n][m];
+        for(int i=0; i<up.length; i++) {
+            for(int j=0; j<up[0].length; j++) {
+                if(arr[i][j] == '*') {
+                    up[i][j]+=1+(i==0?0:(up[i-1][j]));
+                }
+            }
+        }
+        for(int i=0; i<up.length; i++) {
+            for(int j=0; j<up[0].length; j++) {
+                if(arr[i][j] == '*') {
+                    l[i][j]+=1+(j==0?0:(l[i][j-1]));
+                }
+            }
+        }
+        for(int i=0; i<up.length; i++) {
+            for(int j=up[0].length-1; j>=0; j--) {
+                if(arr[i][j] == '*') {
+                    r[i][j]+=1+(j==up[0].length-1?0:(r[i][j+1]));
+                }
+            }
+        }
+        long ans = 0;
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                int cw = 1;
+                int len = 0;
+                for(int k=i; k<n; k++) {
+                    if(Math.min(l[k][j], r[k][j]) >= cw) {
+                        len++;
+                        cw++;
+                    } else {
+                        break;
+                    }
+                }
+                // p.writes(len);
+                ans+=len;
+            }
+            // p.writeln();
+        }
+        p.writeln(ans);
     }
     public static void main(String[] args) {
         int t = 1;
@@ -61,7 +106,7 @@ public class B_Find_the_Spruce {
             return max;
         }
 
-        static int min(int[] a) {
+        static int min(int... a) {
             int min = Integer.MAX_VALUE;
             for (int val : a) min = Math.min(val, min);
             return min;

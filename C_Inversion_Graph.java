@@ -20,7 +20,22 @@ public class C_Inversion_Graph {
         if(debug) p.writeln(st);
     }
     public static void s() {
-        
+        int n = sc.nextInt();
+        int[] arr = sc.readArray(n);
+        int component = 0;
+        TreeSet<Integer> set = new TreeSet<>();
+        int find = n;
+        for(int i=n-1; i>=0; i--) {
+            set.add(arr[i]);
+            int max = set.last();
+            int min = set.first();
+            if(max == find && set.size() == max-min+1) {
+                find = min-1;
+                set = new TreeSet<>();
+                component++;
+            }
+        }
+        p.writeln(component);
     }
     public static void main(String[] args) {
         int t = 1;

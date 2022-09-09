@@ -15,10 +15,29 @@ import java.io.InputStreamReader;
 
 
 public class B_A_and_B {
+    static ArrayList<long[]> arr = new ArrayList<>();
+    public static void pre() {
+        for(long i=1, sum=(i*(i+1))/2; sum <= 1e9; i++) {
+            arr.add(new long[]{(int)i, sum});
+        }
+    }
     public static void s() {
-        int a = sc.nextInt(), b = sc.nextInt();
+        long a = sc.nextLong();
+        long b = sc.nextLong();
+        long diff = Math.abs(a-b);
+
+        int start = 0;
+        int end = arr.size()-1;
+        int ans = 0;
+        while(start <= end) {
+            int mid = start+(end-start)/2;
+            if(arr.get(mid))
+        }
+        
+
     }
     public static void main(String[] args) {
+        pre();
         int t = 1;
         t = sc.nextInt();
         while (t-- != 0) {

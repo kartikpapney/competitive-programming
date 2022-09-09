@@ -1,3 +1,16 @@
+/*
+    Rating: 1378
+    Date: 08-09-2022
+    Time: 20-04-08
+    Author: Kartik Papney
+    Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
+    Leetcode: https://leetcode.com/kartikpapney/
+    Codechef: https://www.codechef.com/users/kartikpapney
+
+----------------------------Jai Shree Ram----------------------------
+
+*/
+
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,11 +19,7 @@ import java.io.InputStreamReader;
 
 public class Main {
     public static void s() {
-        long x = sc.nextLong();
-        long y = sc.nextLong();
-        long z = sc.nextLong();
-        long ans = 4*x + 2*y;
-        p.writeln(ans);
+        
     }
     public static void main(String[] args) {
         int t = 1;
@@ -240,6 +249,12 @@ public class Main {
         int[] readArray(int n) {
             int[] a = new int[n];
             for (int i = 0; i < n; i++) a[i] = nextInt();
+            return a;
+        }
+
+        String[] readStringArray(int n) {
+            String[] a = new String[n];
+            for (int i = 0; i < n; i++) a[i] = nextLine();
             return a;
         }
 

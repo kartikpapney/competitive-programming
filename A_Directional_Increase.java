@@ -20,22 +20,31 @@ import java.io.InputStreamReader;
 public class A_Directional_Increase {
     public static void s() {
         int n = sc.nextInt();
-        int[] arr = sc.readArray(n);
-        int[] fsum = new int[arr.length];
-        fsum[n-1] = arr[n-1];
-        for(int i=n-2; i>=0; i--) {
-            fsum[i] = arr[i]+fsum[i+1];
+        long[] arr = sc.readLongArray(n);
+        for(int i=1; i<arr.length; i++) arr[i] += arr[i-1];
+        if(arr[n-1] != 0) {
+            p.writeln("No");
+            return;
         }
-        int csum = 0;
-        for(int i=0; i<arr.length-1; i++) {
-            csum+=arr[i];
-            if(csum < fsum[i+1]) {
+        for(int i=0; i<n; i++) {
+            if(arr[i]  < 0) {
                 p.writeln("No");
                 return;
             }
         }
-        if(csum + arr[n-1] == 0 && arr[n-1] <= 0) p.writeln("Yes");
-        else p.writeln("No");
+        for(int i=0; i<n; i++) {
+            if(arr[i] == 0) {
+                for(int j=i+1; j<n; j++) {
+                    if(arr[j] != 0) {
+                        p.writeln("No");
+                        return;
+                    }
+                }
+                p.writeln("Yes");
+                return;
+            }
+        }
+        p.writeln("Yes");
     }
     public static void main(String[] args) {
         int t = 1;

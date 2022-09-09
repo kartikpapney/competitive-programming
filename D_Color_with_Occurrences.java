@@ -1,3 +1,16 @@
+/*
+    Rating: 1378
+    Date: 08-09-2022
+    Time: 11-38-15
+    Author: Kartik Papney
+    Linkedin: https://www.linkedin.com/in/kartik-papney-4951161a6/
+    Leetcode: https://leetcode.com/kartikpapney/
+    Codechef: https://www.codechef.com/users/kartikpapney
+
+----------------------------Jai Shree Ram----------------------------
+
+*/
+
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,6 +19,36 @@ import java.io.InputStreamReader;
 
 public class D_Color_with_Occurrences {
     public static void s() {
+        String t = sc.nextLine();
+        int n= sc.nextInt();
+        String[] s = sc.readStringArray(n);
+        int[] cf = new int[3];
+        ArrayList<String> ans = new ArrayList<>();
+        int max = 0;
+        for(int i=0; i<t.length(); i++) {
+            for(int j=0; j<s.length; j++) {
+                String ss = s[j];
+                if(i+ss.length() <= t.length() && ss.equals(t.substring(i, i+ss.length()))) {
+                    int idx = i+ss.length();
+                    if(idx > cf[0]) {
+                        cf = new int[]{idx, j+1, i+1};
+                    }
+                }
+            }
+            if(i == max) {
+                ans.add(cf[1] + " " + cf[2]);
+                max = cf[0];
+            } else if(i > max) {
+                p.writeln(-1);
+                return;
+            }
+        }
+        // System.out.println
+        if(max != t.length()) p.writeln(-1);
+        else {
+            p.writeln(ans.size());
+            for(String sss : ans) p.writeln(sss);
+        } 
         
     }
     public static void main(String[] args) {
@@ -236,6 +279,12 @@ public class D_Color_with_Occurrences {
         int[] readArray(int n) {
             int[] a = new int[n];
             for (int i = 0; i < n; i++) a[i] = nextInt();
+            return a;
+        }
+
+        String[] readStringArray(int n) {
+            String[] a = new String[n];
+            for (int i = 0; i < n; i++) a[i] = nextLine();
             return a;
         }
 
